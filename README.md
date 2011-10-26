@@ -44,7 +44,7 @@ Is it documented?
 
 Not enough yet, but see the [API Docs][#apidocs]
 
-[#apidocs]: docs/api.md
+[#apidocs]: https://github.com/dharmafly/jsonpatch.js/blob/master/docs/api.md
 
 I've fixed/improved stuff
 -------------------------
