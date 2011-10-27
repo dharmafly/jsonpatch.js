@@ -4,6 +4,11 @@ apply_patch(document, patch)
 
 A shortcut to apply a patch given as an Array or as a JSON String (see the [draft JSONPatch spec][#jsonpatch] for the patch format) to a document. May (and usually does)  mutate the given document.
 
+   * document - The document to operate against. May be mutated.
+   * patch - The patch document as a JS Array of operations or as a JSON String representing the same
+
+Example:
+
     mydoc = {
       "baz": "qux",
       "foo": "bar"
@@ -17,7 +22,7 @@ A shortcut to apply a patch given as an Array or as a JSON String (see the [draf
 [#jsonpatch]: http://tools.ietf.org/html/draft-pbryan-json-patch-01
 
 
-JSONPatch
+JSONPatch class
 =========
 
 A JSONPatch object represents a compiled patch. The constructor takes a single argument giving the patch as an Array or as a String.
@@ -32,7 +37,7 @@ Applies the patch to the given document and returns the result. May also mutate 
     patched = mypatch.apply(mydoc);
 
 
-JSONPointer
+JSONPointer class
 ===========
 
 Represents a pointer into a Javascript object. The constructor takes a single string argument giving the pointer (see the [draft JSONPointer spec][#jsonpointer] for the pointer format).
@@ -41,7 +46,7 @@ Represents a pointer into a Javascript object. The constructor takes a single st
 
 [#jsonpointer]:http://tools.ietf.org/html/draft-pbryan-zyp-json-pointer-02
 
-add
+add(document, value)
 ---
 
 Takes a JSON document and a value and adds the value into
@@ -51,7 +56,7 @@ and all that follow it have there position incremented to make
 room. It is an error to add to a parent object that doesn't exist
 or to try to replace an existing value in an object.
 
-  * doc - The document to operate against. May be mutated.
+  * document - The document to operate against. May be mutated.
   * value - The value to insert at the position pointed to
 
 Example:
@@ -61,13 +66,13 @@ Example:
 
 Returns the updated doc (the value passed in may also have been mutated)
 
-remove
+remove(document)
 ------
 
 Takes a JSON document and removes the value pointed to.
 It is an error to attempt to remove a value that doesn't exist.
 
-   * doc - The document to operate against. May be mutated.
+   * document - The document to operate against. May be mutated.
 
 Example:
 
@@ -77,12 +82,13 @@ Example:
 Returns the updated doc (the value passed in may also have been mutated)
   
 
-replace
+replace(document, value)
 -------
 
 Takes a JSON document and removes the value pointed to. It is an error to attempt to remove a value that doesn't exist.
 
-   * doc - The document to operate against. May be mutated.
+   * document - The document to operate against. May be mutated.
+   * value - The value to replace at the position pointed to   
 
 Examples
 
@@ -92,12 +98,12 @@ Examples
 Returns the updated doc (the value passed in may also have been mutated)
   
 
-get
+get(document)
 ---
 
 Returns the value pointed to by the pointer in the given doc.
 
-   * doc - The document to operate against. 
+   * document - The document to operate against. 
 
 Examples
 
@@ -107,12 +113,12 @@ Examples
 Returns the value
     
 
-InvalidPatch
+InvalidPatch class
 ============
 
 Error thrown when an invalid patch is passed in.
 
-PatchApplyError
+PatchApplyError class
 ===============
 
 Error thrown when a patch can not be applied against a given document.

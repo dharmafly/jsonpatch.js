@@ -40,8 +40,6 @@ Is it documented?
 
 Not enough yet, but see the [API Docs][#apidocs]
 
-[#apidocs]: https://github.com/dharmafly/jsonpatch.js/blob/master/docs/api.md
-
 Origin of the Project
 ---------------------
 
@@ -57,4 +55,4 @@ Great! Send me a pull request through GitHub <http://github.com/dharmafly/jsonpa
 [#dharmafly]: http://dharmafly.com
 [#nodejs]: http://nodejs.org
 [#backbone]: http://documentcloud.github.com/backbone/
-
+[#apidocs]:https://github.com/dharmafly/jsonpatch.js/blob/master/docs/api.md
