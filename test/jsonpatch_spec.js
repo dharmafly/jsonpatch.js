@@ -59,6 +59,16 @@ describe('JSONPointer', function () {
         add('/foo/new/alsonew',example,'test');
       }).toThrow(new jsonpatch.PatchApplyError('Path not found in document'));
     });
+
+    it('should should fail when trying to add the root to a non-undefined value', function () {
+      expect(function () {
+        add('',example,'test');
+      }).toThrow(new jsonpatch.PatchApplyError('Add operation must not point to an existing value!'));
+    });
+
+    it('should should succeed if replacing the root in undefined ', function () {
+      expect(add('',undefined,'test')).toEqual('test');
+    });
   });
   
   describe('.remove()', function () {
@@ -87,6 +97,10 @@ describe('JSONPointer', function () {
     
     it('should fail if the array element specified doesnt exist', function () {
       expect(function () {do_remove('/foo/anArray/4', example);}).toThrow(new jsonpatch.PatchApplyError('Remove operation must point to an existing value!'));
+    });
+
+    it('should return undefined when removing the root', function () {
+      expect(do_remove('', example)).toBeUndefined()
     });
   });
 
