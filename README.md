@@ -8,9 +8,17 @@ A [Dharmafly][#dharmafly] project written by [Thomas Parslow][#tom] <tom@almosto
 Quick Example
 -------------
 
-    doc = JSON.parse(sourceJSON);
-    jsonpatch.apply_patch(mydoc, thepatch);
-    destJSON = JSON.stringify(doc);
+    mydoc = {
+      "baz": "qux",
+      "foo": "bar"
+    };
+    thepatch = [
+      { "replace": "/baz", "value": "boo" }
+    ]
+    patcheddoc = jsonpatch.apply_patch(mydoc, thepatch);
+    // patcheddoc now equals {"baz": "boo", "foo": "bar"}}
+
+See also: [API Docs][#apidocs]
 
 Is it any good?
 ---------------

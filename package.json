@@ -3,6 +3,7 @@
     "version": "v0.0.1",
     "description": "An implementation of JSON Patch and JSON Pointer IETF drafts",
     "keywords": ["diff", "patch", "json", "jsonpatch", "jsonpointer"],
+    "maintainers": 'Thomas Parslow <tom@almostobsolete.net>',
     "author": {"name": "Thomas Parslow", "email": "tom@almostobsolete.net", "url":"http://almostobsolete.net/"},
     "url": "http://github.com/dharmafly/jsonpatch.js",
     "dependencies": {
