@@ -38,6 +38,11 @@ Yes. Install with:
 
     npm install jsonpatch
 
+Is it finished?
+---------------
+
+Probably. I do have some ideas for some extra bits but nothing that would break backwards compatibility. I'll probably bump the version up to 1.0.0 in a few weeks if no one spots any problems with the way it works now.
+
 Are there tests?
 ----------------
 
