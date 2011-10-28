@@ -1,7 +1,7 @@
 JSONPatch
 =========
 
-An implementation of the JSONPatch (and JSONPointer) IETF drafts.
+An implementation of the [JSONPatch][#jsonpatch] (and [JSONPointer][#jsonpointer]) IETF drafts.
 
 A [Dharmafly][#dharmafly] project written by [Thomas Parslow][#tom] <tom@almostobsolete.net> and released with the kind permission of [NetDev][#netdev].
 
@@ -69,3 +69,5 @@ Great! Send me a pull request through GitHub <http://github.com/dharmafly/jsonpa
 [#nodejs]: http://nodejs.org
 [#backbone]: http://documentcloud.github.com/backbone/
 [#apidocs]:https://github.com/dharmafly/jsonpatch.js/blob/master/docs/api.md
+[#jsonpatch]: http://tools.ietf.org/html/draft-pbryan-json-patch-01
+[#jsonpointer]:http://tools.ietf.org/html/draft-pbryan-zyp-json-pointer-02
