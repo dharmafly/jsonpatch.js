@@ -1,12 +1,10 @@
 {
     "name": "jsonpatch",
-    "version": "0.0.1",
+    "version": "v0.0.1",
     "description": "An implementation of JSON Patch and JSON Pointer IETF drafts",
     "keywords": ["diff", "patch", "json", "jsonpatch", "jsonpointer"],
-    "author": "Thomas Parslow (http://almostobsolete.net/)",
-    "contributors": [
-        "Thomas Parslow <tom@almostobsolete.net>"
-    ],
+    "author": {"name": "Thomas Parslow", "email": "tom@almostobsolete.net", "url":"http://almostobsolete.net/"},
+    "url": "http://github.com/dharmafly/jsonpatch.js",
     "dependencies": {
     },
     "devDependencies": {
@@ -17,7 +15,8 @@
         "test": "jasmine-node -i lib test && jshint lib"
     },
     "repository" : {"type": "git", "url": "git://github.com/dhamrafly/jsonpatch.js"},
-    "directories" : { "lib" : "./lib/" },
+    "directories" : { "lib" : "./lib/" , "doc" : "./doc/" },
     "engines": { "node": ">=0.4.0" },
+    "licenses": ["MIT"] ,
     "main": "lib/jsonpatch.js"
 }
