@@ -5,7 +5,7 @@ apply_patch(document, patch)
 A shortcut to apply a patch given as an Array or as a JSON String (see the [draft JSONPatch spec][#jsonpatch] for the patch format) to a document. May (and usually does)  mutate the given document.
 
    * document - The document to operate against. May be mutated.
-   * patch - The patch document as a JS Array of operations or as a JSON String representing the same
+   * patch - The patch document as a JS Array of operations or as a JSON String representing the same (the latter requires JSON support in your browser or the inclusion of the JSON2 library or similar)
 
 Example:
 

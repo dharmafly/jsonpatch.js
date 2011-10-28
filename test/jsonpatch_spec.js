@@ -1,4 +1,6 @@
-var jsonpatch = jsonpatch || require('jsonpatch');
+if ('function' === typeof require) {
+  jsonpatch = require('jsonpatch');
+}
 
 describe('JSONPointer', function () {
   var example;
@@ -26,8 +28,8 @@ describe('JSONPointer', function () {
     });
     
     it('should add a element to an object', function () {
-      example = add('/foo/new',example,'test');
-      expect(example.foo.new).toEqual('test');
+      example = add('/foo/newprop',example,'test');
+      expect(example.foo.newprop).toEqual('test');
     });
     it('should add an element to list, pushing up the remaing values', function () {
       example = add('/foo/anArray/1',example,'test');
@@ -56,7 +58,7 @@ describe('JSONPointer', function () {
     
     it('should should fail if the place to add specified does not exist', function () {
       expect(function () {
-        add('/foo/new/alsonew',example,'test');
+        add('/foo/newprop/alsonew',example,'test');
       }).toThrow(new jsonpatch.PatchApplyError('Path not found in document'));
     });
 
