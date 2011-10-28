@@ -53,7 +53,7 @@ Is it documented?
 
 Not enough yet, but see the [API Docs][#apidocs]
 
-Origin of the Project
+Origin of the project?
 ---------------------
 
 [Dharmafly][#dharmafly] is currently working to create a collaboration web app for [NetDev][#netdev] that comprises a [Node.js][#nodejs] RESTful API on the back-end and an HTML5 [Backbone.js][#backbone] application on the front. The JSON Patch library was created as an essential part of the RESTful API, and has been subsequently open sourced for the community with NetDev's permission.
@@ -61,7 +61,7 @@ Origin of the Project
 I've fixed/improved stuff
 -------------------------
 
-Great! Send me a pull request through GitHub <http://github.com/dharmafly/jsonpatch.js> or get in touch on Twitter @almostobsolete.net or email at tom@almostobsolete.net
+Great! Send me a pull request through GitHub <http://github.com/dharmafly/jsonpatch.js> or get in touch on Twitter @almostobsolete or email at tom@almostobsolete.net
 
 [#tom]: http://www.almostobsolete.net
 [#netdev]: http://www.netdev.co.uk
