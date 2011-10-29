@@ -8,6 +8,7 @@ A [Dharmafly][#dharmafly] project written by [Thomas Parslow][#tom] <tom@almosto
 Quick Example
 -------------
 
+```javascript
     mydoc = {
       "baz": "qux",
       "foo": "bar"
@@ -17,6 +18,7 @@ Quick Example
     ]
     patcheddoc = jsonpatch.apply_patch(mydoc, thepatch);
     // patcheddoc now equals {"baz": "boo", "foo": "bar"}}
+```    
 
 See also: [API Docs][#apidocs]
 
