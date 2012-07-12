@@ -5,7 +5,7 @@ category: about
 Quick Example
 -------------
 
-```javascript
+    javascript
     mydoc = {
       "baz": "qux",
       "foo": "bar"
@@ -15,4 +15,3 @@ Quick Example
     ]
     patcheddoc = jsonpatch.apply_patch(mydoc, thepatch);
     // patcheddoc now equals {"baz": "boo", "foo": "bar"}}
-```
