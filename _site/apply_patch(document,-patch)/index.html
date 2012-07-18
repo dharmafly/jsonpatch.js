@@ -1,0 +1,20 @@
+<p>A shortcut to apply a patch given as an Array or as a JSON String (see the <a href='http://tools.ietf.org/html/draft-pbryan-json-patch-01'>draft JSONPatch spec</a> for the patch format) to a document. May (and usually does) mutate the given document.</p>
+
+<p>* document - The document to operate against. May be mutated. * patch - The patch document as a JS Array of operations or as a JSON String representing the same (the latter requires JSON support in your browser or the inclusion of the JSON2 library or similar)</p>
+
+<p>Example:</p>
+
+<pre><code>javascript
+mydoc = {
+  &quot;baz&quot;: &quot;qux&quot;,
+  &quot;foo&quot;: &quot;bar&quot;
+};
+thepatch = [
+  { &quot;replace&quot;: &quot;/baz&quot;, &quot;value&quot;: &quot;boo&quot; }
+]
+patcheddoc = jsonpatch.apply_patch(mydoc, thepatch);
+// patcheddoc now equals {&quot;baz&quot;: &quot;boo&quot;, &quot;foo&quot;: &quot;bar&quot;}}</code></pre>
+
+<p>Throws:</p>
+
+<p>* InvalidPatch if the patch is invalid * PatchApplyError if the patch could not apply against the given document</p>
