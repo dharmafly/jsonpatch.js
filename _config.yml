@@ -11,7 +11,7 @@ THEME: default
 GITHUB_ZIP_URL: https://github.com/dharmafly/jsonpatch.js/zipball/gh-pages
 TWITTER_PROJECT_URL: https://twitter.com/dharmafly
 # javascript, css or html5
-LANG: css
+LANG: javascript
 
 # Add your project's scripts here to be available to any examples
 SCRIPTS:
