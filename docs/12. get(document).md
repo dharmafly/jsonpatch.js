@@ -8,7 +8,6 @@ Returns the value pointed to by the pointer in the given doc.
 
 Examples
 
-    javascript
     var value = new JSONPointer("/obj/value").get({obj: {value: "hello"}});
     // value now equals 'hello'
 

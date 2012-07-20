@@ -8,7 +8,6 @@ A JSONPatch object represents a compiled patch. The constructor takes a single a
 
 Example:
 
-    javascript
     mypatch = new JSONPatch([{ "replace": "/baz", "value": "boo" }]);
 
 

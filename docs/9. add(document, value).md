@@ -14,7 +14,6 @@ or to try to replace an existing value in an object.
 
 Example:
 
-    javascript
     var doc = new JSONPointer("/obj/new").add({obj:   {old:"hello"}},"world");
     // doc now equals {obj: {old: "hello", new: "world"}}
 

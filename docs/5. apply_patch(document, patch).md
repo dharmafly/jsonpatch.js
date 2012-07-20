@@ -9,7 +9,6 @@ A shortcut to apply a patch given as an Array or as a JSON String (see the [draf
 
 Example:
 
-    javascript
     mydoc = {
       "baz": "qux",
       "foo": "bar"

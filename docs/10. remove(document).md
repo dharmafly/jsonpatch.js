@@ -9,7 +9,6 @@ It is an error to attempt to remove a value that doesn't exist.
 
 Example:
 
-    javascript
     var doc = new JSONPointer("/obj/old").remove({obj: {old: "string"}});
     // doc now equals {obj: {}}
 
