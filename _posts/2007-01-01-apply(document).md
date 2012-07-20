@@ -11,7 +11,6 @@ Applies the patch to the given document and returns the result. May also mutate 
 
 Example:
 
-    javascript
     patched = mypatch.apply(mydoc);
 
 

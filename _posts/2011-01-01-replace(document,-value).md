@@ -10,7 +10,6 @@ Takes a JSON document and removes the value pointed to. It is an error to attemp
 
 Examples
 
-    javascript
     var doc = new JSONPointer("/obj/bar).replace({obj: {bar: "old"}}, "new");
     // doc now equals {obj: {old: "new"}}
 
