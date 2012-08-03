@@ -3,14 +3,14 @@ body {
 	padding: 0;
 	margin: 0;
 	color: {{ page.copy_colour }};
-    background: {{ page.body_background_colour }}; 
-    background-image: url(./img/tile.png); 
-    background-image: url(./img/tile.png) -moz-linear-gradient(left, {{ page.body_background_colour }} 0%, {{ page.background_mid_stop }} 50%, {{ page.body_background_colour }} 100%);
-    background-image: url(./img/tile.png) -webkit-gradient(linear, left top, right top, color-stop(0%,{{ page.body_background_colour }}), color-stop(50%,{{ page.background_mid_stop }}), color-stop(100%,{{ page.body_background_colour }}));
-    background-image: url(./img/tile.png) -webkit-linear-gradient(left, {{ page.body_background_colour }} 0%,{{ page.background_mid_stop }} 50%,{{ page.body_background_colour }} 100%); 
-    background-image: url(./img/tile.png) -o-linear-gradient(left, {{ page.body_background_colour }} 0%,{{ page.background_mid_stop }} 50%,{{ page.body_background_colour }} 100%); 
-    background-image: url(./img/tile.png) -ms-linear-gradient(left, {{ page.body_background_colour }} 0%,{{ page.background_mid_stop }} 50%,{{ page.body_background_colour }} 100%);
-    background-image: url(./img/tile.png) linear-gradient(left, {{ page.body_background_colour }} 0%,{{ page.background_mid_stop }} 50%,{{ page.body_background_colour }} 100%);
+  background: {{ page.body_background_colour }};
+  background-image: url(./img/tile.png);
+  background-image: url(./img/tile.png) -moz-linear-gradient(left, {{ page.body_background_colour }} 0%, {{ page.background_mid_stop }} 50%, {{ page.body_background_colour }} 100%);
+  background-image: url(./img/tile.png) -webkit-gradient(linear, left top, right top, color-stop(0%,{{ page.body_background_colour }}), color-stop(50%,{{ page.background_mid_stop }}), color-stop(100%,{{ page.body_background_colour }}));
+  background-image: url(./img/tile.png) -webkit-linear-gradient(left, {{ page.body_background_colour }} 0%,{{ page.background_mid_stop }} 50%,{{ page.body_background_colour }} 100%);
+  background-image: url(./img/tile.png) -o-linear-gradient(left, {{ page.body_background_colour }} 0%,{{ page.background_mid_stop }} 50%,{{ page.body_background_colour }} 100%);
+  background-image: url(./img/tile.png) -ms-linear-gradient(left, {{ page.body_background_colour }} 0%,{{ page.background_mid_stop }} 50%,{{ page.body_background_colour }} 100%);
+  background-attachment: fixed;
 }
 
 i, em {
@@ -94,6 +94,12 @@ code {
 	color: {{ page.code_colour }};
 }
 
+pre code .keyword              { color: #FAB204; }
+pre code .string, pre code .regexp { color: #E6DB74; }
+pre code .class, pre code .special { color: #F8F8F2; }
+pre code .number               { color: #CAE4FF; }
+pre code .comment              { color: #75715E; }
+
 .content section:after, .cf:after {
 	content: ".";
 	display: block;
@@ -103,8 +109,12 @@ code {
 	height: 0;
 }
 
+.ltIE9 .content section {
+  clear:left;
+}
 
 pre {
+  position: relative;
 	font-size: 10px; /* Fixes odd issue in FF */
 	overflow: auto;
 	overflow-y: hidden;
@@ -115,11 +125,15 @@ pre {
 	margin: 0 -2em 2em;
 	padding: 1.5em 3em;
 	border: 10px solid {{ page.content_bg_colour }};
-    border-radius: 17px;
-    -webkit-box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.45) inset;
-    -moz-box-shadow:    4px 4px 5px rgba(0, 0, 0, 0.45) inset;
-    -o-box-shadow:    4px 4px 5px rgba(0, 0, 0, 0.45) inset;
-    box-shadow:         4px 4px 5px rgba(0, 0, 0, 0.45) inset;
+  border-radius: 17px;
+  -webkit-box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.45) inset;
+  -moz-box-shadow:    4px 4px 5px rgba(0, 0, 0, 0.45) inset;
+  -o-box-shadow:    4px 4px 5px rgba(0, 0, 0, 0.45) inset;
+  box-shadow:         4px 4px 5px rgba(0, 0, 0, 0.45) inset;
+}
+
+section pre.hasEditor {
+  padding-bottom: 3.5em;
 }
 
 pre code {
@@ -128,12 +142,13 @@ pre code {
 	display: block;
 	border-radius: 0;
 	border: 0;
-	font-size: 1.2em;
+	font-size: 1.6em;
 	line-height: 1.2em;
+  color: #F8F8F2;
 }
 
 header {
-  background : url(./img/tile.png); 
+  background : url(./img/tile.png);
 }
 
 header,
@@ -208,7 +223,7 @@ section.overview a {
 section.overview a:hover,
 section.overview a:focus,
 section.overview a:active {
-    color:{{ page.link_colour }};
+    color:{{ page.link_colour_alt }};
     -webkit-transition : color 0.1s ease-in;
     -moz-transition : color 0.1s ease-in;
     -o-transition : color 0.1s ease-in;
@@ -226,7 +241,7 @@ section.overview a:active {
 }
 
 #navigation.float h1 {
-    text-transform: none; 
+    text-transform: none;
     margin:  0;
     padding-right: 1em;
     float: left;
@@ -257,7 +272,7 @@ section.overview a:active {
   border-left-width:0;
   float: none;
 }
-	
+
 #navigation li:last-child{
   border-right-width:0;
 }
@@ -272,7 +287,7 @@ section.overview a:active {
     text-align: right;
     width: 40em;
 }
-    
+
 #subnav.float {
     position: fixed;
     top: 6em;
@@ -280,25 +295,19 @@ section.overview a:active {
 }
 
 
-aside, 
-#subnav,
-#subnav.off-left  {
-    margin-left : -100%;
-}
-
 #subnav,
 #subnav.off-left  {
     opacity: 0;
 }
 
+
 #subnav.show-nav {
-    margin-left : 0;
     opacity : 1;
-    -webkit-transition: margin-left,opacity 300ms ease-in-out;
-    -moz-transition: margin-left 300ms ease-in-out;
-    -o-transition: margin-left 300ms ease-in-out;
-    -ms-transition: margin-left 300ms ease-in-out;
-    transition: margin-left 300ms ease-in-out;
+    -webkit-transition: opacity 300ms ease-in-out;
+    -moz-transition: opacity 300ms ease-in-out;
+    -o-transition: opacity 300ms ease-in-out;
+    -ms-transition: opacity 300ms ease-in-out;
+    transition: opacity 300ms ease-in-out;
 }
 
 #subnav li {
@@ -308,9 +317,9 @@ aside,
 
 #subnav a {
     text-decoration: none;
-    padding: 0 1.25em 0.55em 1em; 
+    padding: 0 1.25em 0.55em 1em;
     background: transparent no-repeat 0em 1.2em;
-    background-image: url('data:image/svg+xml;base64,{{ page.subnav_underline }}');
+    background-image: url({{ page.subnav_underline }});
     -webkit-transition: background-position 0.3s ease-out, color 0.3s ease-out;
     -moz-transition: background-position 0.3s ease-out, color 0.3s ease-out;
     -o-transition: background-position 0.3s ease-out, color 0.3s ease-out;
@@ -318,11 +327,11 @@ aside,
 }
 
 #subnav a:hover {
-    background-position: 4em 1.2em;
-    -webkit-transition: background-position 0.3s ease-out, color 0.3s ease-out;
-    -moz-transition: background-position 0.3s ease-out, color 0.3s ease-out;
-    -o-transition: background-position 0.3s ease-out, color 0.3s ease-out;2
-    transition: background-position 0.3s ease-out, color 0.3s ease-out;
+    background-position: 2em 1.2em;
+    -webkit-transition: background-position 0.15s ease-out, color 0.15s ease-out;
+    -moz-transition: background-position 0.15s ease-out, color 0.15s ease-out;
+    -o-transition: background-position 0.15s ease-out, color 0.15s ease-out;2
+    transition: background-position 0.15s ease-out, color 0.15s ease-out;
 }
 
 aside,
@@ -336,6 +345,7 @@ section.content {
     padding: 3em 0;
     position: relative;
     left: 0;
+    min-height: 46em;
     -webkit-transition: left 300ms ease-in-out;
     -moz-transition: left 300ms ease-in-out;
     -o-transition: left 300ms ease-in-out;
@@ -345,27 +355,32 @@ section.content {
 
 
 
+
 section.content:after{
   content: "";
-    display: block;
-    width: 506px;
-    height: 231px;
-    margin: 0;
-    position: absolute;
-    bottom: 177px;
-    left: -336px;
-    z-index: -1;
-    background: transparent;
-    background-repeat: no-repeat;
-    background-position: left top;
-    background-image: url(./svg/{{ page.svg_asset }}) ;
-    -webkit-transform: rotate({{ page.svg_asset_rotation }});
-    -moz-transform: rotate({{ page.svg_asset_rotation }});
-    -ms-transform: rotate({{ page.svg_asset_rotation }});
-    -o-transform: rotate({{ page.svg_asset_rotation }});
-    transform: rotate({{ page.svg_asset_rotation }});
-    opacity: 0.2;
-    background-size: {{ page.svg_asset_size }} 
+  display: block;
+  width: 506px;
+  height: 231px;
+  margin: 0;
+  position: absolute;
+  bottom: 177px;
+  left: -336px;
+  z-index: -1;
+  background: transparent;
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-image: url(./svg/{{ page.svg_asset }}) ;
+  -webkit-transform: rotate({{ page.svg_asset_rotation }});
+  -moz-transform: rotate({{ page.svg_asset_rotation }});
+  -ms-transform: rotate({{ page.svg_asset_rotation }});
+  -o-transform: rotate({{ page.svg_asset_rotation }});
+  transform: rotate({{ page.svg_asset_rotation }});
+  opacity: 0.2;
+  background-size: {{ page.svg_asset_size }}
+}
+
+.ie section.content:after{
+  background-image: none;
 }
 
 section > h1 {
@@ -377,18 +392,26 @@ section > h1:hover .permalink {
 	visibility: visible;
 }
 
+@font-face{ 
+  font-family: 'Rail Model'; 
+  src: url('./ie/railmodelfont-webfont.eot?#iefix') format('embedded-opentype'); 
+}
+
 section .permalink {
 	text-decoration: none;
-	color: {{ page.greyed_out }};
 	float: left;
 	margin-right: 0.2em;
 	visibility: hidden;
-  font-family: Code2000, "DejaVu Sans", "DejaVu Sans Bold", "DejaVu Sans Bold Oblique", "DejaVu Sans Condensed", "DejaVu Sans Condensed Bold", "DejaVu Sans Condensed Bold Oblique", "DejaVu Sans Condensed Oblique", "DejaVu Sans Mono", "DejaVu Sans Mono Bold", "DejaVu Sans Oblique", "EversonMono", "EversonMono-Oblique", "Symbola"
+  position: relative;
+  bottom: 0;
+  font-family: "DejaVu Sans", "DejaVu Sans Bold", "DejaVu Sans Bold Oblique", "DejaVu Sans Condensed", "DejaVu Sans Condensed Bold", "DejaVu Sans Condensed Bold Oblique", "DejaVu Sans Condensed Oblique", "DejaVu Sans Mono", "DejaVu Sans Mono Bold", "DejaVu Sans Oblique", "EversonMono", "EversonMono-Oblique", "Symbola", "Free Serif", "Quivira", "Rail Model", Code2000 
 }
 
-section .permalink:hover {
-	color: {{ page.copy_colour }};
+.ltIE9 section .permalink {
+  font-family: "Rail Model";
 }
+
+
 
 .project-name {
     font-family: {{ page.font }}, serif;
@@ -430,8 +453,8 @@ section .permalink:hover {
   position:relative;
 }
 
-.quote:before,
-.quote:after {
+section.quote:before,
+section.quote:after {
   content: "";
   display: block;
   position: absolute;
@@ -450,10 +473,17 @@ section .permalink:hover {
   -ms-transform: {{ page.quote_svg_left_transform }};
   -o-transform: {{ page.quote_svg_left_transform }};
   transform: {{ page.quote_svg_left_transform }};
+  visibility: visible;
 }
 
-.quote:after {
-  left: {{ page.quote_svg_right_pos }};
+.ie section.quote:before,
+.ie section.quote:after {
+  background-image: none;
+}
+
+section.quote:after {
+  left: auto;
+  right: {{ page.quote_svg_right_pos }};
   -webkit-transform: {{ page.quote_svg_right_transform }};
   -moz-transform: {{ page.quote_svg_right_transform }};
   -ms-transform: {{ page.quote_svg_right_transform }};
@@ -491,6 +521,11 @@ article > h2 + p,
 
 
 /* Embedded Markdown Docs */
+
+.embedded :last-child {
+  margin-bottom: 0;
+}
+
 .embedded h1 {
 	font-size: 2.2em;
 }
@@ -551,25 +586,25 @@ button {
     color:{{ page.highlight_colour }};
     border: 1px solid {{ page.button_border }};
     border-radius: 3px;
-    background: {{ page.lowlight_colour }}; 
-    background: -moz-linear-gradient(top, {{ page.lowlight_colour }} 0%, {{ page.lowlight_colour }} 18%, {{ page.button_mid_stop }} 78%, {{ page.button_mid_stop }} 100%); 
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,{{ page.lowlight_colour }}), color-stop(18%,{{ page.lowlight_colour }}), color-stop(78%,{{ page.button_mid_stop }}), color-stop(100%,{{ page.button_mid_stop }})); 
-    background: -webkit-linear-gradient(top, {{ page.lowlight_colour }} 0%,{{ page.lowlight_colour }} 18%,{{ page.button_mid_stop }} 78%,{{ page.button_mid_stop }} 100%); 
+    background: {{ page.lowlight_colour }};
+    background: -moz-linear-gradient(top, {{ page.lowlight_colour }} 0%, {{ page.lowlight_colour }} 18%, {{ page.button_mid_stop }} 78%, {{ page.button_mid_stop }} 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,{{ page.lowlight_colour }}), color-stop(18%,{{ page.lowlight_colour }}), color-stop(78%,{{ page.button_mid_stop }}), color-stop(100%,{{ page.button_mid_stop }}));
+    background: -webkit-linear-gradient(top, {{ page.lowlight_colour }} 0%,{{ page.lowlight_colour }} 18%,{{ page.button_mid_stop }} 78%,{{ page.button_mid_stop }} 100%);
     background: -o-linear-gradient(top, {{ page.lowlight_colour }} 0%,{{ page.lowlight_colour }} 18%,{{ page.button_mid_stop }} 78%,{{ page.button_mid_stop }} 100%);
-    background: -ms-linear-gradient(top, {{ page.lowlight_colour }} 0%,{{ page.lowlight_colour }} 18%,{{ page.button_mid_stop }} 78%,{{ page.button_mid_stop }} 100%); 
-    background: linear-gradient(top, {{ page.lowlight_colour }} 0%,{{ page.lowlight_colour }} 18%,{{ page.button_mid_stop }} 78%,{{ page.button_mid_stop }} 100%); 
+    background: -ms-linear-gradient(top, {{ page.lowlight_colour }} 0%,{{ page.lowlight_colour }} 18%,{{ page.button_mid_stop }} 78%,{{ page.button_mid_stop }} 100%);
+    background: linear-gradient(top, {{ page.lowlight_colour }} 0%,{{ page.lowlight_colour }} 18%,{{ page.button_mid_stop }} 78%,{{ page.button_mid_stop }} 100%);
 }
 
 button:hover,
 button:focus,
 button:active {
-    background: {{ page.button_colour }}; 
-    background: -moz-linear-gradient(top, {{ page.button_colour }} 0%, {{ page.button_colour_highlight }} 100%); 
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,{{ page.button_colour }}), color-stop(100%,{{ page.button_colour_highlight }})); 
+    background: {{ page.button_colour }};
+    background: -moz-linear-gradient(top, {{ page.button_colour }} 0%, {{ page.button_colour_highlight }} 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,{{ page.button_colour }}), color-stop(100%,{{ page.button_colour_highlight }}));
     background: -webkit-linear-gradient(top, {{ page.button_colour }} 0%,{{ page.button_colour_highlight }} 100%);
     background: -o-linear-gradient(top, {{ page.button_colour }} 0%,{{ page.button_colour_highlight }} 100%);
-    background: -ms-linear-gradient(top, {{ page.button_colour }} 0%,{{ page.button_colour_highlight }} 100%); 
-    background: linear-gradient(top, {{ page.button_colour }} 0%,{{ page.button_colour_highlight }} 100%); 
+    background: -ms-linear-gradient(top, {{ page.button_colour }} 0%,{{ page.button_colour_highlight }} 100%);
+    background: linear-gradient(top, {{ page.button_colour }} 0%,{{ page.button_colour_highlight }} 100%);
 }
 
 .buttons {
@@ -645,9 +680,13 @@ button:active {
 }
 
 #navigation li.show-subnav {
-    float: left;
-    margin-top: -0.3em;
-    border-right:0;
+  float: left;
+  margin-top: -0.3em;
+  border-right:0;
+}
+
+.ltIE9 #navigation li.show-subnav {
+  display: none;
 }
 
 #navigation.show-subnav-button li.show-subnav + li {
@@ -668,15 +707,14 @@ button:active {
 
 .run {
 	position: relative;
+  margin-bottom: 3em;
 }
 
 .run .eval {
 	z-index: 100;
 	position: absolute;
-    top: auto;
-    left: auto;
-    bottom: 104px;
-    right: -6px;
+  bottom: 12px;
+  left: 10px;
 	cursor: pointer;
 }
 
@@ -711,90 +749,107 @@ button:active {
 
 aside li,
 .buttons .badge {
-    float: left;
-    margin-right: 1em;
+  float: left;
+  margin-right: 1em;
 }
 
 aside:after {
-    content: "";
-    display: block;
-    clear: both;
+  content: "";
+  display: block;
+  clear: both;
 }
+
 
 aside li  a,
 aside li  span,
 .buttons .badge {
-    width: 3.025em;
-    height: 0em;
-    border: 0.625em solid {{ page.content_hover_colour }};
-    border-radius: 3.025em;
-    overflow: hidden;
-    padding-top: 3.025em;
-    display:block;
-    background: url(./img/icon-sprite.png) no-repeat;
-    -webkit-transition: border-color 0.3s ease-out;
-    position:relative;
+  width: 3.025em;
+  height: 0em;
+  border: 0.625em solid {{ page.content_hover_colour }};
+  border-radius: 3.025em;
+  overflow: hidden;
+  padding-top: 3.025em;
+  display:block;
+  background: url(./img/icon-sprite.png) no-repeat;
+  -webkit-transition: border-color 0.3s ease-out;
+  -moz-transition: border-color 0.3s ease-out;
+  -ms-transition: border-color 0.3s ease-out;
+  -o-transition: border-color 0.3s ease-out;
+  transition: border-color 0.3s ease-out;
+  position: relative;
 }
 
 .buttons .badge {
-    border-width: 0.2em;
-    width: 2.5em;
-    border-radius: 2.5em;
-    padding-top: 2.5em;
+  border-width: 2px;
+  width: 2.5em;
+  border-radius: 2.5em;
+  padding-top: 2.5em;
 }
 
-aside li  a:hover,
-.buttons .badge:hover {
-    border-color: {{ page.content_bg_colour }};
-    -webkit-transition: border-color 0.3s ease-out;
+.ltIE9 aside li  a,
+.ltIE9 aside li  span,
+.ltIE9  .buttons .badge {
+  border-width: 0;
+} 
+
+aside li a:hover {
+  border-color: {{ page.content_bg_colour }};
+  -webkit-transition: border-color 0.3s ease-out;
+  -moz-transition: border-color 0.3s ease-out;
+  -ms-transition: border-color 0.3s ease-out;
+  -o-transition: border-color 0.3s ease-out;
+  transition: border-color 0.3s ease-out;
 }
 
-aside li.github a {
-    background-position: -5px 0;
-}
+.ltIE9 aside li.github a {  background-position: -4px 4px; background-color: white;}
+aside li.github a {  background-position: -5px 0; }
+aside li.twitter a{ background-position: -2px -128px; }
+aside li.code-javascript span { background-position: -6px -246px; }
+aside li.code-html5 span { background-position: -2px -457px; }
+aside li.code-css span { background-position: -2px -546px; }
 
-aside li.twitter a{
-    background-position: -2px -128px;
-}
+.buttons .badge.github  {  background-position: 0px -359px; }
 
-aside li.code-javascript span {
-    background-position: -6px -246px;
-}
-aside li.code-html5 span {
-    background-position: 0 -460px;
-}
-aside li.code-css span {
-    background-position: 0 -552px;
-}
-
-.buttons .badge.github {
-    background-position: 0px -359px;
-}
-
-.github a{
-  /* -webkit-filter: grayscale(1); */
-}
-
-aside .github a:after ,
-.buttons .badge.github:after {
+aside a:after ,
+aside span:after ,
+.buttons .badge:after {
   content: "";
   display: block;
   width: 3.0265em;
   height: 3.0265em;
   background-color: {{ page.badge_overlay }};
   opacity: 0.5;
+  transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -webkit-transition: opacity .25s ease-in-out;
+  -ms-transition: opacity .25s ease-in-out;
+  -o-transition: opacity .25s ease-in-out;
   position: absolute;
   top: 0;
   left: 0;
   border-radius: 50%;
 }
 
-.buttons .badge.github:after {
+
+.buttons .badge:after {
   width: 2.5em;
   height: 2.5em;
-  top: 0;
-  left: 0;
 }
+
+
+.ltIE9 aside a:after ,
+.ltIE9 aside span:after ,
+.ltIE9 .buttons .badge:after {
+  display: none;
+  background-color: transparent;
+}
+
+aside  a:hover:after ,
+aside  span:hover:after ,
+.buttons .badge:hover:after {
+  opacity: 0;
+}
+
 
 .ace_cursor.ace_hidden {
 	opacity: 0!important;
@@ -802,11 +857,12 @@ aside .github a:after ,
 
 .ace_editor {
 	font-family: Inconsolata, monospace !important;
-    font-size: 1.6em !important;
+  font-size: 1.6em !important;
+  left:30px;
 }
 
 .ace_editor .ace_sb {
-    overflow-y: auto !important;
+  overflow-y: auto !important;
 }
 
 .ace_scroller {
@@ -817,14 +873,12 @@ aside .github a:after ,
 @media (min-width:340px) {
 	#navigation {
 		text-align: left;
-		/* text-align: center; */
-	}  
-    
+  }
 }
 
 
 @media (min-width:35em) {
-    
+
 
   header img {
     width: 281px;
@@ -842,7 +896,7 @@ aside .github a:after ,
 		margin-left: auto;
 		margin-right: auto;
 	}
-    
+
 
 
   header h1 {
@@ -851,7 +905,7 @@ aside .github a:after ,
     position:relative;
     display: inline-block;
 	}
-  
+
   header h1:after{
     content: "";
     display: block;
@@ -866,47 +920,59 @@ aside .github a:after ,
     background-size: 100%;
     background-color: transparent;
     -webkit-filter: {{ page.svg_title_filter }};
-     -webkit-transform: {{ page.svg_title_rotation }};
+    -webkit-transform: {{ page.svg_title_rotation }};
     -moz-transform: {{ page.svg_title_rotation }};
     -ms-transform: {{ page.svg_title_rotation }};
     -o-transform: {{ page.svg_title_rotation }};
     transform: {{ page.svg_title_rotation }};
   }
-    
+
   footer > div {
       text-align: right;
       padding:2em 2em 2em 0;
   }
-    
+
 	section:after {
 		margin-left: -4em;
 		margin-right: -4em;
 	}
-	
+
 	section pre {
 		margin-left: -5.6em;
 		margin-right: -5.6em;
-		padding-left: 5em;
+		padding-left: 2.5em;
 		padding-right: 2.5em;
     max-width:65em;
 	}
-   
+  
+  section pre.hasEditor {
+		padding-left: 5em;
+    padding-bottom: 1.5em;
+	}
+  
+  section .embedded > ul pre {
+    margin-left: -7.2em;
+  }
+
   #navigation.float h1 {
     font-size: 2.6em;
     margin-top: -0.1em;
     display: block;
   }
-  
-  .run .eval {
-      z-index: 100;
-      position: absolute;
-      top: 23px;
-      left: -40px;
-      bottom: auto;
-      right: auto;
-      cursor: pointer;
+
+ .run .eval {
+    left: 14px;
   }
   
+  .ace_editor {
+    left:20px;
+  }
+  
+  .ie .run code {
+    left:30px;
+  }
+
+
   .icon {
       width: 31px;
       padding-top: 31px;
@@ -916,7 +982,7 @@ aside .github a:after ,
   .show-subnav .icon{
       background-position: 3px 5px;
   }
-  
+
   #navigation li.show-subnav{
       display:none;
   }
@@ -924,38 +990,43 @@ aside .github a:after ,
       display:block;
   }
   
-}
+  section.quote:after {
+    left: auto;
+    right: -webkit-calc({{ page.quote_svg_right_pos }} + {{ page.quote_svg_right_mod }});
+  }
 
+}
+  
 @media (min-width:52em) {
 
-    #subnav.off-left  {
-        margin-left : -100%;
-    }
-    
-    aside,
-    #subnav,
-    #subnav.show-nav {
-        margin-left: 0;
-    }
-    
+   
+  #subnav.off-left  {
+    margin-left: -100%;
+  }
+
+  #subnav.show-nav {
+    margin-left: 0;
+  }
+
     #subnav,
     #subnav.show-nav {
         opacity : 1;
     }
-    
+
 
     aside {
         position: absolute;
         top: 3em;
         right: -10em;
         margin: 0;
+        /*z-index:-1;*/
     }
-    
+
     aside li {
         float: none;
         margin-right: 0;
     }
-    
+
     aside li  a,
     aside li  span{
         border-color: {{ page.content_bg_colour }};
@@ -965,7 +1036,7 @@ aside .github a:after ,
     aside li a:hover{
         border-color: {{ page.content_hover_colour }};
     }
-        
+
     aside:after{
         width: 90px;
         height: 240px;
@@ -977,7 +1048,40 @@ aside .github a:after ,
         position: absolute;
         bottom: -210px;
         left: -43px;
-    }    
-    
-    
+    }
+
+
 }
+
+/* Force hardware acceleration on very small screens (assuming mobile device), optimise background */
+
+@media only screen and (min-device-width: 320px)  and (max-device-width: 480px) {
+  section.content,
+  #subnav.show-nav {
+    -webkit-transition: none;
+  }
+  body {
+    background-image: url(./img/tile.png);
+    //-webkit-transform:scale3d(1,1,1);
+  }
+}
+
+
+/* Force correct font loading behaviour to avoid FOUT in all browsers */
+/*
+.wf-loading h1,
+.wf-loading h2,
+.wf-loading h3,
+.wf-loading h4,
+.wf-loading p,
+.wf-loading blockquote,
+.wf-loading ul,
+.wf-loading li,
+.wf-loading a,
+.wf-loading em,
+.wf-loading span {
+
+  visibility: hidden;
+
+}
+*/

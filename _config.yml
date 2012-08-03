@@ -3,19 +3,22 @@ PROJECT_NAME: jsonpatch.js
 GITHUB_CURRENT_VERSION: 1.0
 GITHUB_PROJECT_URL: https://github.com/dharmafly/jsonpatch.js
 
-# The style for your site (currently only default)
-THEME: default
+# The style for your site (options: forest, ocean)
+THEME: forest
 
 ############ Optional extras
 
 GITHUB_ZIP_URL: https://github.com/dharmafly/jsonpatch.js/zipball/gh-pages
 TWITTER_PROJECT_URL: https://twitter.com/dharmafly
-# javascript, css or html5
+
+# options: javascript, css, html5
 LANG: javascript
 
 # Add your project's scripts here to be available to any examples
 SCRIPTS:
 - src: https://raw.github.com/dharmafly/jsonpatch.js/master/lib/jsonpatch.js
+
+REFERENCE_LINK_TEXT: "Complete documentation can be found here:"
 
 # A quote to add at the footer of your project page
 QUOTE:
