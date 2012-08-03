@@ -1,3 +1,4 @@
 node_modules
 test/lib/jasmine-1.1.0
 npm-debug.log
+_site

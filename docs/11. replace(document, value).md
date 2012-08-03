@@ -1,5 +1,6 @@
 ---
 category: reference
+heading: "11. replace(document, value)"
 ---
 
 

@@ -1,5 +1,6 @@
 ---
 category: reference
+heading: "10. remove(document)"
 ---
 
 Takes a JSON document and removes the value pointed to.
