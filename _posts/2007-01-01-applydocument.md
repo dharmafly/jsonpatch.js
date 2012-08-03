@@ -1,5 +1,6 @@
 ---
 category: reference
+heading: "7. apply(document)"
 ---
 
 

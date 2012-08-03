@@ -1,5 +1,6 @@
 ---
 category: reference
+heading: "9. add(document, value)"
 ---
 
 Takes a JSON document and a value and adds the value into
