@@ -1,10 +1,11 @@
 ---
 category: reference
-heading: "7. apply(document)"
+heading: 7. apply(document)
 ---
 
 
----------------
+
+---
 
 Applies the patch to the given document and returns the result. May also mutate the document!
 

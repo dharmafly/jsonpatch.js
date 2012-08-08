@@ -1,7 +1,8 @@
 ---
 category: reference
-heading: "12. get(document)"
+heading: 12. get(document)
 ---
+
 
 Returns the value pointed to by the pointer in the given doc.
 

@@ -1,7 +1,8 @@
 ---
 category: reference
-heading: "11. replace(document, value)"
+heading: 11. replace(document, value)
 ---
+
 
 
 Takes a JSON document and removes the value pointed to. It is an error to attempt to remove a value that doesn't exist.

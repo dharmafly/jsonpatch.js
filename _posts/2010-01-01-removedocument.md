@@ -1,7 +1,8 @@
 ---
 category: reference
-heading: "10. remove(document)"
+heading: 10. remove(document)
 ---
+
 
 Takes a JSON document and removes the value pointed to.
 It is an error to attempt to remove a value that doesn't exist.

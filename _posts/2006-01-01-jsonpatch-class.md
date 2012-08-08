@@ -1,7 +1,8 @@
 ---
 category: reference
-heading: "6. JSONPatch class"
+heading: 6. JSONPatch class
 ---
+
 
 A JSONPatch object represents a compiled patch. The constructor takes a single argument giving the patch as an Array or as a String.
 
