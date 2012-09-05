@@ -1,4 +1,4 @@
-UPDATE 5/Dec/2011: JSON Patch draft 4 has just been released which contains two new operetions (move and test). This library will be updated to support them shortly.
+UPDATE: JSON Patch draft 4 has just been released which contains two new operations (move and test). This library will be updated to support them shortly.
 
 JSONPatch
 =========
