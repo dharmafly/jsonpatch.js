@@ -1,5 +1,5 @@
 if ('function' === typeof require) {
-  jsonpatch = require('jsonpatch');
+  jsonpatch = require('../lib/jsonpatch');
 }
 
 describe('JSONPointer', function () {
@@ -18,7 +18,7 @@ describe('JSONPointer', function () {
       }
     };
   });
-  
+
   describe('.add()', function () {
     var add;
     beforeEach(function () {
@@ -26,7 +26,7 @@ describe('JSONPointer', function () {
         return (new jsonpatch.JSONPointer(path)).add(doc, value);
       }
     });
-    
+
     it('should add a element to an object', function () {
       example = add('/foo/newprop',example,'test');
       expect(example.foo.newprop).toEqual('test');
@@ -37,25 +37,25 @@ describe('JSONPointer', function () {
       expect(example.foo.anArray[1]).toEqual('test');
       expect(example.foo.anArray[2]).toEqual('second');
     });
-    
+
     it('should allow adding to the end of an array', function () {
       example = add('/foo/anArray/3',example,'test');
       expect(example.foo.anArray.length).toEqual(4);
       expect(example.foo.anArray[3]).toEqual('test');
     });
-    
+
     it('should fail if the object value already exists', function () {
       expect(function () {
         add('/foo/another%20prop',example,'test');
       }).toThrow(new jsonpatch.PatchApplyError('Add operation must not point to an existing value!'));
     });
-    
+
     it('should fail if adding to an array would create a sparse array', function () {
       expect(function () {
         add('/foo/anArray/4',example,'test');
       }).toThrow(new jsonpatch.PatchApplyError('Add operation must not attempt to create a sparse array!'));
     });
-    
+
     it('should should fail if the place to add specified does not exist', function () {
       expect(function () {
         add('/foo/newprop/alsonew',example,'test');
@@ -72,37 +72,37 @@ describe('JSONPointer', function () {
       expect(add('',undefined,'test')).toEqual('test');
     });
   });
-  
+
   describe('.remove()', function () {
     function do_remove(pointerStr, doc) {
       return (new jsonpatch.JSONPointer(pointerStr)).remove(doc);
     }
-    
+
     it('should remove an object key', function () {
       example = do_remove("/foo", example);
       expect(example.foo).toBeUndefined();
     });
-    
+
     it('should remove an item from an array', function () {
       example = do_remove("/foo/anArray/1", example);
       expect(example.foo.anArray.length).toEqual(2);
       expect(example.foo.anArray[1]).toEqual('third');
     });
-    
+
     it('should fail if the object key specified doesnt exist', function () {
       expect(function () {do_remove('/foo/notthere', example);}).toThrow(new jsonpatch.PatchApplyError('Remove operation must point to an existing value!'));
     });
-    
+
     it('should should fail if the path specified doesnt exist', function () {
       expect(function () {do_remove('/foo/notthere/orhere', example);}).toThrow(new jsonpatch.PatchApplyError('Path not found in document'));
     });
-    
+
     it('should fail if the array element specified doesnt exist', function () {
       expect(function () {do_remove('/foo/anArray/4', example);}).toThrow(new jsonpatch.PatchApplyError('Remove operation must point to an existing value!'));
     });
 
     it('should return undefined when removing the root', function () {
-      expect(do_remove('', example)).toBeUndefined()
+      expect(do_remove('', example)).toBeUndefined();
     });
   });
 
@@ -125,11 +125,11 @@ describe('JSONPatch', function () {
   var patch;
   describe('constructor', function () {
     it('should accept a JSON string as a patch', function () {
-      patch = new jsonpatch.JSONPatch('[{"remove": "/"}]')
+      patch = new jsonpatch.JSONPatch('[{"remove": "/"}]');
       expect(patch = patch.compiledOps.length).toEqual(1);
     });
     it('should accept a JS object as a patch', function () {
-      patch = new jsonpatch.JSONPatch([{"remove": "/"}, {"remove": "/"}])
+      patch = new jsonpatch.JSONPatch([{"remove": "/"}, {"remove": "/"}]);
       expect(patch.compiledOps.length).toEqual(2);
     });
     it('should raise an error for  patches that arent arrays', function () {
@@ -164,7 +164,7 @@ describe('JSONPatch', function () {
           expect(doc).toEqual('TEST_DOC');
           callOrder.push(name);
           return doc;
-        }
+        };
       }
       patch.compiledOps = [mockOp('one'),mockOp('two'),mockOp('three')];
       patch.apply('TEST_DOC');
@@ -174,7 +174,7 @@ describe('JSONPatch', function () {
   });
 
   describe('Examples from the JSON Patch draft', function () {
-    function eq(a,b) {
+    function deepEqual(a,b) {
       var key;
       if (typeof a !== typeof b) {
         return false;
@@ -182,7 +182,7 @@ describe('JSONPatch', function () {
       if ('object' === typeof(a)) {
         for(key in a) {
           if (!(key in b && eq(a[key], b[key]))) {
-            return false
+            return false;
           }
         }
         for(key in b) {
@@ -196,57 +196,135 @@ describe('JSONPatch', function () {
       }
     }
 
-    it('should work wth the examples from the draft', function () {
-      function checkExample(doc, patch, result) {
-        doc = jsonpatch.apply_patch(doc, patch);
-        expect(eq(doc,result)).toEqual(true);
+    var check = function (example) {
+      expect(
+        deepEqual(
+          jsonpatch.apply_patch(example.doc, example.patch),
+          example.result
+        )
+      ).toEqual(true);
+    };
+
+
+    var examples = {
+      'A.1.  Adding an Object Member': {
+        doc: {
+          "foo": "bar"
+        },
+        patch: [
+          { "op": "add", "path": "/baz", "value": "qux" }
+        ],
+        result: {
+          "baz": "qux",
+          "foo": "bar"
+       }
+      },
+      'A.2.  Adding an Array Element': {
+        doc:{
+          "foo": [ "bar", "baz" ]
+        },
+        patch: [
+          { "op": "add", "path": "/foo/1", "value": "qux" }
+        ],
+        result: {
+          "foo": [ "bar", "qux", "baz" ]
+        }
+      },
+      'A.3.  Removing an Object Member': {
+        doc: {
+          "baz": "qux",
+          "foo": "bar"
+        },
+        patch: [
+          { "op": "remove", "path": "/baz" }
+        ],
+        result: {
+          "foo": "bar"
+        }
+      },
+      'A.4.  Removing an Array Element': {
+        doc: {
+          "foo": [ "bar", "qux", "baz" ]
+        },
+        patch: [
+          { "op": "remove", "path": "/foo/1" }
+        ],
+        result: {
+          "foo": [ "bar", "baz" ]
+        }
+      },
+      'A.5.  Replacing a Value': {
+        doc: {
+          "baz": "qux",
+          "foo": "bar"
+        },
+        patch: [
+          { "op": "replace", "path": "/baz", "value": "boo" }
+        ],
+        result: {
+          "baz": "boo",
+          "foo": "bar"
+        }
+      },
+      'A.6.  Moving a Value': {
+        doc: {
+          "foo": {
+            "bar": "baz",
+            "waldo": "fred"
+          },
+          "qux": {
+            "corge": "grault"
+          }
+       },
+       patch: [
+          { "op": "move", "path": "/foo/waldo", to: "/qux/thud" }
+       ],
+       result: {
+          "foo": {
+            "bar": "baz"
+          },
+          "qux": {
+            "corge": "grault",
+            "thud": "fred"
+          }
+        }
+      },
+      'A.7.  Moving an Array Element': {
+        doc: {
+          "foo": [ "all", "grass", "cows", "eat" ]
+        },
+        patch: [
+          { "op": "move", "path": "/foo/1", "to": "/foo/3" }
+        ],
+        result: {
+          "foo": [ "all", "cows", "eat", "grass" ]
+        }
+      },
+      // A.8 and A.9 deal with the `test` operation - see below
+      'A.10.  Adding a nested Member Object': {
+        doc: {
+          "foo": "bar"
+        },
+        patch: [
+          { "op": "add", "path": "/child", "value": { "grandchild": {} } }
+        ],
+        result: {
+          "foo": "bar",
+          "child": {
+            "grandchild": {}
+          }
+        }
       }
-        
-      checkExample({
-        "foo": "bar"
-      },[
-        { "add": "/baz", "value": "qux" }
-      ],{
-        "baz": "qux",
-        "foo": "bar"
-      });
-      
-      checkExample({
-        "foo": [ "bar", "baz" ]
-      },[
-        { "add": "/foo/1", "value": "qux" }
-      ],{
-        "foo": [ "bar", "qux", "baz" ]
-      });
-      
-      
-      checkExample({
-        "baz": "qux",
-        "foo": "bar"
-      },[
-        { "remove": "/baz" }
-      ],{
-        "foo": "bar"
-      });
-      
-      checkExample({
-        "foo": [ "bar", "qux", "baz" ]
-      },[
-        { "remove": "/foo/1" }
-      ],{
-        "foo": ["bar", "baz"]
-      });
-      
-      checkExample({
-        "baz": "qux",
-        "foo": "bar"
-      },[
-        { "replace": "/baz", "value": "boo" }
-      ],{
-        "baz": "boo",
-        "foo": "bar"
-      });
+
+    };
+
+    Object.keys(examples).forEach(function (name) {
+      it(name, function () { check(examples[name]); });
     });
+
+    it('A.8. Testing a Value: Success');
+    it('A.9. Testing a Value: Error');
+
   });
 
   describe('Regressions', function () {
@@ -256,4 +334,18 @@ describe('JSONPatch', function () {
       }).toThrow(new jsonpatch.InvalidPatch('Invalid operation!'));
     });
   });
+
+  describe('Atomicity', function () {
+    it ('should not apply the patch if any of the operations fails, and the original object should be unaffected', function () {
+      var doc = {
+        "alpha": 1,
+        "omega": "lots"
+      };
+
+      jsonpatch.apply_patch(doc, [{"op": "update", "path": "/beta/", "value": 2}]);
+
+      expect(doc.beta).toEqual(undefined);
+    });
+  });
+
 });
