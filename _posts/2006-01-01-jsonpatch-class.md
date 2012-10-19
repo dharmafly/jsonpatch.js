@@ -1,11 +1,11 @@
 --- 
-category: reference
 heading: JSONPatch class
+category: reference
 ---
 
 A JSONPatch object represents a compiled patch. The constructor takes a single argument giving the patch as an Array or as a String.
 
-   * patch - The patch document as a JS Array of operations or as a JSON String representing the same (the latter requires JSON support in your browser or the inclusion of the JSON2 library or similar)
+* patch - The patch document as a JS Array of operations or as a JSON String representing the same (the latter requires JSON support in your browser or the inclusion of the JSON2 library or similar)
 
 Example:
 
@@ -14,4 +14,4 @@ Example:
 
 Throws:
 
-   * InvalidPatch if the patch is invalid
+* InvalidPatch if the patch is invalid

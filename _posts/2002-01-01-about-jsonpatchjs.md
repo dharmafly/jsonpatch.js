@@ -1,6 +1,6 @@
 --- 
-category: overview
 heading: About jsonpatch.js
+category: overview
 ---
 
 Example
