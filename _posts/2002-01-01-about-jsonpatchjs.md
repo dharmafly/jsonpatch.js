@@ -1,6 +1,6 @@
 --- 
-heading: About jsonpatch.js
 category: overview
+heading: About jsonpatch.js
 ---
 
 Example
@@ -38,7 +38,7 @@ It also passes [JSHint](http://www.jshint.com).
 Fixes and improvements
 ----------------------
 
-Send a [pull request through GitHub](http://github.com/dharmafly/jsonpatch.js) or get in touch on Twitter ([@almostobsolete](https://twitter.com/almostobsolete) / [@dharmafly](https://twitter.com/dharmafly)) or email at [tom@almostobsolete.net](mailto:tom@almostobsolete.net)
+Send a [pull request through GitHub](http://github.com/dharmafly/jsonpatch.js) or get in touch on Twitter ([@almostobsolete](https://twitter.com/almostobsolete)) or email at [tom@almostobsolete.net](mailto:tom@almostobsolete.net)
 
 
 History

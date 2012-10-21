@@ -1,6 +1,6 @@
 --- 
-heading: apply_patch(document, patch)
 category: reference
+heading: apply_patch(document, patch)
 ---
 
 A shortcut to apply a patch given as an Array or as a JSON String (see the [draft JSONPatch spec][#jsonpatch] for the patch format) to a document. May (and usually does)  mutate the given document.
