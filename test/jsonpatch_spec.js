@@ -329,12 +329,18 @@ describe('JSONPatch', function () {
 
   describe('to attribute', function () {
     it('MUST NOT be part of the location specified by "path" in a move operation', function () {
-      throw new Error("not implemented")
-    })
-    it('MUST NOT be part of the location specified by "path" in a move operation', function () {
-      throw new Error("not implemented")
-    })
-  })
+      var doc = {a:{b:true, c:false}};
+      expect(function () {
+        jsonpatch.apply_patch(doc, [{op: 'move', path: '/a', to: '/a/b'}]);
+      }).toThrow(new jsonpatch.InvalidPatch('destination must not be a child of path'));
+    });
+    it('MUST NOT be part of the location specified by "path" in a copy operation', function () {
+      var doc = {a:{b:true, c:false}};
+      expect(function () {
+        jsonpatch.apply_patch(doc, [{op: 'copy', path: '/a', to: '/a/b'}]);
+      }).toThrow(new jsonpatch.InvalidPatch('destination must not be a child of path'));
+    });
+  });
 
   describe('Regressions', function () {
     it('should reject unknown patch operations (even if they are properties of the base Object)', function () {
@@ -351,9 +357,16 @@ describe('JSONPatch', function () {
         "omega": "lots"
       };
 
-      jsonpatch.apply_patch(doc, [{"op": "replace", "path": "/beta/", "value": 2}]);
+      expect(function () {
+        jsonpatch.apply_patch(doc, [
+          {"op": "add", "path": "/delta", "value": 2},
+          {"op": "replace", "path": "/beta///", "value": 2}
+        ]);
+      }).toThrow(new Error('Path not found in document'));
+
 
       expect(doc.beta).toEqual(undefined);
+      //expect(doc.delta).toEqual(undefined);
     });
   });
 
