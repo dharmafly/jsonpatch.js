@@ -125,25 +125,22 @@ describe('JSONPatch', function () {
   var patch;
   describe('constructor', function () {
     it('should accept a JSON string as a patch', function () {
-      patch = new jsonpatch.JSONPatch('[{"remove": "/"}]');
+      patch = new jsonpatch.JSONPatch('[{"op":"remove", "path":"/"}]');
       expect(patch = patch.compiledOps.length).toEqual(1);
     });
     it('should accept a JS object as a patch', function () {
-      patch = new jsonpatch.JSONPatch([{"remove": "/"}, {"remove": "/"}]);
+      patch = new jsonpatch.JSONPatch([{"op":"remove", "path":"/"}, {"op":"remove", "path":"/"}]);
       expect(patch.compiledOps.length).toEqual(2);
     });
     it('should raise an error for  patches that arent arrays', function () {
       expect(function () {patch = new jsonpatch.JSONPatch({});}).toThrow(new jsonpatch.InvalidPatch('Patch must be an array of operations'));
     });
-    it('should raise an error for patches that specify multiple operations in a single item', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{remove: '/', add: '/'}]);}).toThrow(new jsonpatch.InvalidPatch('Only one operation allowed per block!'));
-    });
     it('should raise an error if value is supplied for remove operation', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{remove: '/', value: ''}]);}).toThrow(new jsonpatch.InvalidPatch('"remove" operation should not have a "value"!'));
+      expect(function () {patch = new jsonpatch.JSONPatch([{"op":"remove", "path":'/', value: ''}]);}).toThrow(new jsonpatch.InvalidPatch('remove must not have key value'));
     });
     it('should raise an error if value is not supplied for add or replace operation', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{add: '/'}]);}).toThrow(new jsonpatch.InvalidPatch('"add" operation should have a "value"!'));
-      expect(function () {patch = new jsonpatch.JSONPatch([{replace: '/'}]);}).toThrow(new jsonpatch.InvalidPatch('"replace" operation should have a "value"!'));
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"add", path:'/'}]);}).toThrow(new jsonpatch.InvalidPatch('add must have key value'));
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"replace", path:'/'}]);}).toThrow(new jsonpatch.InvalidPatch('replace must have key value'));
     });
     it('should raise an error if an operation is not specified', function () {
       expect(function () {patch = new jsonpatch.JSONPatch([{}]);}).toThrow(new jsonpatch.InvalidPatch('Operation missing!'));
@@ -181,7 +178,7 @@ describe('JSONPatch', function () {
       }
       if ('object' === typeof(a)) {
         for(key in a) {
-          if (!(key in b && eq(a[key], b[key]))) {
+          if (!(key in b && deepEqual(a[key], b[key]))) {
             return false;
           }
         }
@@ -197,12 +194,15 @@ describe('JSONPatch', function () {
     }
 
     var check = function (example) {
-      expect(
-        deepEqual(
-          jsonpatch.apply_patch(example.doc, example.patch),
+      var documentUnderTest = jsonpatch.apply_patch(example.doc, example.patch);
+      var eq = deepEqual(
+          documentUnderTest,
           example.result
-        )
-      ).toEqual(true);
+        );
+      if (!eq) {
+        console.log('\n',documentUnderTest, '\n', example.result);
+      }
+      expect(eq).toEqual(true);
     };
 
 
@@ -277,7 +277,7 @@ describe('JSONPatch', function () {
           }
        },
        patch: [
-          { "op": "move", "path": "/foo/waldo", to: "/qux/thud" }
+          { "op": "move", "path": "/foo/waldo", "to": "/qux/thud" }
        ],
        result: {
           "foo": {
@@ -327,10 +327,19 @@ describe('JSONPatch', function () {
 
   });
 
+  describe('to attribute', function () {
+    it('MUST NOT be part of the location specified by "path" in a move operation', function () {
+      throw new Error("not implemented")
+    })
+    it('MUST NOT be part of the location specified by "path" in a move operation', function () {
+      throw new Error("not implemented")
+    })
+  })
+
   describe('Regressions', function () {
     it('should reject unknown patch operations (even if they are properties of the base Object)', function () {
       expect(function () {
-        new jsonpatch.JSONPatch([{hasOwnProperty: '/'}]);
+        new jsonpatch.JSONPatch([{op:'hasOwnProperty', path:'/'}]);
       }).toThrow(new jsonpatch.InvalidPatch('Invalid operation!'));
     });
   });
@@ -342,7 +351,7 @@ describe('JSONPatch', function () {
         "omega": "lots"
       };
 
-      jsonpatch.apply_patch(doc, [{"op": "update", "path": "/beta/", "value": 2}]);
+      jsonpatch.apply_patch(doc, [{"op": "replace", "path": "/beta/", "value": 2}]);
 
       expect(doc.beta).toEqual(undefined);
     });
