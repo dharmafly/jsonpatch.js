@@ -46,7 +46,7 @@ describe('JSONPointer', function () {
 
     it('should fail if the object value already exists', function () {
       expect(function () {
-        add('/foo/another%20prop',example,'test');
+        add('/foo/another prop',example,'test');
       }).toThrow(new jsonpatch.PatchApplyError('Add operation must not point to an existing value!'));
     });
 
@@ -111,8 +111,44 @@ describe('JSONPointer', function () {
       return (new jsonpatch.JSONPointer(pointerStr)).get(doc);
     }
 
+    describe('examples from JSONPointer spec', function () {
+      var doc = {
+        "foo": ["bar", "baz"],
+        "": 0,
+        "a/b": 1,
+        "c%d": 2,
+        "e^f": 3,
+        "g|h": 4,
+        "i\\j": 5,
+        "k\"l": 6,
+        " ": 7,
+        "m~n": 8
+      };
+
+      var examples = {
+        ""     :doc,
+        "/foo"  :["bar", "baz"],
+        "/foo/0":"bar",
+        "/"     :0,
+        "/a~1b" :1,
+        "/c%d"  :2,
+        "/e^f"  :3,
+        "/g|h"  :4,
+        "/i\\j" :5,
+        "/k\"l" :6,
+        "/ "    :7,
+        "/m~0n" :8
+      };
+
+      Object.keys(examples).forEach(function (example) {
+        it('should get the correct pointed object for example "' + example + '"', function () {
+          expect(do_get(example, doc)).toEqual(examples[example]);
+        });
+      });
+    });
+
     it('should get the object pointed to', function () {
-      expect(do_get('/foo/another%20prop/baz', example)).toEqual('A string');
+      expect(do_get('/foo/another prop/baz', example)).toEqual('A string');
     });
 
     it('should get the array element pointed to', function () {
