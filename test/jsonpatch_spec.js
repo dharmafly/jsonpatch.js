@@ -386,13 +386,17 @@ describe('JSONPatch', function () {
       var doc = {a:{b:true, c:false}};
       expect(function () {
         jsonpatch.apply_patch(doc, [{op: 'move', path: '/a', to: '/a/b'}]);
-      }).toThrow(new jsonpatch.InvalidPatch('destination must not be a child of path'));
+      }).toThrow(new jsonpatch.InvalidPatch('destination must not be a child of source'));
     });
     it('MUST NOT be part of the location specified by "path" in a copy operation', function () {
       var doc = {a:{b:true, c:false}};
       expect(function () {
         jsonpatch.apply_patch(doc, [{op: 'copy', path: '/a', to: '/a/b'}]);
-      }).toThrow(new jsonpatch.InvalidPatch('destination must not be a child of path'));
+      }).toThrow(new jsonpatch.InvalidPatch('destination must not be a child of source'));
+    });
+    it('MUST ALLOW source to start with the destinations string as long as one is not actually a subset of the other', function () {
+      var doc = {a:{b:true, c:false}};
+      jsonpatch.apply_patch(doc, [{op: 'copy', path: '/a', to: '/ab'}]);
     });
   });
 
