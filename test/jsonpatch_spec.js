@@ -145,6 +145,12 @@ describe('JSONPatch', function () {
     it('should raise an error if an operation is not specified', function () {
       expect(function () {patch = new jsonpatch.JSONPatch([{}]);}).toThrow(new jsonpatch.InvalidPatch('Operation missing!'));
     });
+    it('should raise an error if un-recognised keys are supplied', function () {
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"add", path:'/', value: 'test', hello: 'world'}]);}).toThrow(new jsonpatch.InvalidPatch('add must not have key hello'));
+    });
+    it('should raise an error if un-recognised operation is specified', function () {
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"blam"}]);}).toThrow(new jsonpatch.InvalidPatch('Invalid operation!'));
+    });
 
   });
 
