@@ -183,18 +183,12 @@ describe('JSONPatch', function () {
     it('should raise an error for  patches that arent arrays', function () {
       expect(function () {patch = new jsonpatch.JSONPatch({});}).toThrow(new jsonpatch.InvalidPatch('Patch must be an array of operations'));
     });
-    it('should raise an error if value is supplied for remove operation', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{"op":"remove", "path":'/', value: ''}]);}).toThrow(new jsonpatch.InvalidPatch('remove must not have key value'));
-    });
     it('should raise an error if value is not supplied for add or replace operation', function () {
       expect(function () {patch = new jsonpatch.JSONPatch([{op:"add", path:'/'}]);}).toThrow(new jsonpatch.InvalidPatch('add must have key value'));
       expect(function () {patch = new jsonpatch.JSONPatch([{op:"replace", path:'/'}]);}).toThrow(new jsonpatch.InvalidPatch('replace must have key value'));
     });
     it('should raise an error if an operation is not specified', function () {
       expect(function () {patch = new jsonpatch.JSONPatch([{}]);}).toThrow(new jsonpatch.InvalidPatch('Operation missing!'));
-    });
-    it('should raise an error if un-recognised keys are supplied', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{op:"add", path:'/', value: 'test', hello: 'world'}]);}).toThrow(new jsonpatch.InvalidPatch('add must not have key hello'));
     });
     it('should raise an error if un-recognised operation is specified', function () {
       expect(function () {patch = new jsonpatch.JSONPatch([{op:"blam"}]);}).toThrow(new jsonpatch.InvalidPatch('Invalid operation!'));
@@ -368,8 +362,19 @@ describe('JSONPatch', function () {
             "grandchild": {}
           }
         }
+      },
+      'A.10.   Ignoring Unrecognized Elements': {
+        doc: {
+          "foo": "bar"
+        },
+        patch: [
+          { "op":"add", "path":"/baz", "value":"qux", "xyz":123 }
+        ],
+        result: {
+          "foo":"bar",
+          "baz":"qux"
+        }
       }
-
     };
 
     Object.keys(examples).forEach(function (name) {
