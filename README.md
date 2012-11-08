@@ -25,7 +25,7 @@ Quick Example
     // patcheddoc now equals {"baz": "boo", "foo": "bar"}}
 ```
 
-And thay's all you need for basic use. For more see the [docs][#site].
+And that's all you need for basic use. For more see the [docs][#site].
 
 Is it any good?
 ---------------
