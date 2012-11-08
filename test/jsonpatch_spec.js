@@ -255,6 +255,7 @@ describe('JSONPatch', function () {
 
 
     var examples = {
+      
       'A.1.  Adding an Object Member': {
         doc: {
           "foo": "bar"
@@ -267,6 +268,7 @@ describe('JSONPatch', function () {
           "foo": "bar"
        }
       },
+      
       'A.2.  Adding an Array Element': {
         doc:{
           "foo": [ "bar", "baz" ]
@@ -278,6 +280,7 @@ describe('JSONPatch', function () {
           "foo": [ "bar", "qux", "baz" ]
         }
       },
+      
       'A.3.  Removing an Object Member': {
         doc: {
           "baz": "qux",
@@ -290,6 +293,7 @@ describe('JSONPatch', function () {
           "foo": "bar"
         }
       },
+      
       'A.4.  Removing an Array Element': {
         doc: {
           "foo": [ "bar", "qux", "baz" ]
@@ -301,6 +305,7 @@ describe('JSONPatch', function () {
           "foo": [ "bar", "baz" ]
         }
       },
+      
       'A.5.  Replacing a Value': {
         doc: {
           "baz": "qux",
@@ -314,6 +319,7 @@ describe('JSONPatch', function () {
           "foo": "bar"
         }
       },
+      
       'A.6.  Moving a Value': {
         doc: {
           "foo": {
@@ -337,6 +343,7 @@ describe('JSONPatch', function () {
           }
         }
       },
+      
       'A.7.  Moving an Array Element': {
         doc: {
           "foo": [ "all", "grass", "cows", "eat" ]
@@ -348,7 +355,25 @@ describe('JSONPatch', function () {
           "foo": [ "all", "cows", "eat", "grass" ]
         }
       },
-      // A.8 and A.9 deal with the `test` operation - see below
+      
+      'A.8.  Testing a Value: Success': {
+        doc: {
+          "baz": "qux",
+          "foo": [ "a", 2, "c" ]
+        },
+        patch: [
+          { "op": "test", "path": "/baz", "value": "qux" },
+          { "op": "test", "path": "/foo/1", "value": 2 }
+        ],
+        result: {
+          "baz": "qux",
+          "foo": [ "a", 2, "c" ]
+        }
+      },
+
+      // See below for A.9 (it returns an error so has to handled
+      // differently)
+      
       'A.10.  Adding a nested Member Object': {
         doc: {
           "foo": "bar"
@@ -363,6 +388,7 @@ describe('JSONPatch', function () {
           }
         }
       },
+      
       'A.10.   Ignoring Unrecognized Elements': {
         doc: {
           "foo": "bar"
@@ -375,7 +401,8 @@ describe('JSONPatch', function () {
           "baz":"qux"
         }
       },
-      // See below for A.11
+      // See below for A.11 (it returns an error so has to be done in
+      // a different way)
       
       // The spec is a little unclear about what the result of A.12
       // should be, but it is clear that it SHOULD NOT be interpreted
@@ -387,11 +414,36 @@ describe('JSONPatch', function () {
         patch: "[{ \"op\":\"add\", \"path\":\"/baz\", \"value\":\"qux\", \"op\":\"remove\" }]",
         result: {
         }
-      }
+      },
+
+      // Some extra examples not from the spec
+
+      'Test value with lots of types': {
+        doc: {
+          "baz": "qux",
+          "foo": [ "a", 2, "c" , true, [-1], {a:'b'}]
+        },
+        patch: [
+          { "op": "test", "path": "", "value": {"baz": "qux", "foo": [ "a", 2, "c" , true, [-1], {a:'b'}]} }
+        ],
+        result: {
+          "baz": "qux",
+          "foo": [ "a", 2, "c" , true, [-1], {a:'b'}]
+        }
+      },
     };
 
     Object.keys(examples).forEach(function (name) {
       it(name, function () { check(examples[name]); });
+    });
+
+    it('A.9.  Testing a Value: Error', function () {
+      var doc = {
+       "baz": "qux"
+      };
+      expect(function () {
+        jsonpatch.apply_patch(doc, [{ "op": "test", "path": "/baz", "value": "bar" }]);
+      }).toThrow(new jsonpatch.PatchApplyError("Test operation failed. Value did not match."));
     });
 
     it('A.12.  Adding to a Non-existant Target', function () {
@@ -403,8 +455,6 @@ describe('JSONPatch', function () {
       }).toThrow(new jsonpatch.InvalidPatch('Path not found in document'));
     });
 
-    it('A.8. Testing a Value: Success');
-    it('A.9. Testing a Value: Error');
 
   });
 
