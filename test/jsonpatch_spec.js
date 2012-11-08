@@ -43,6 +43,12 @@ describe('JSONPointer', function () {
       expect(example.foo.anArray.length).toEqual(4);
       expect(example.foo.anArray[3]).toEqual('test');
     });
+    
+    it('should allow adding to the end of an array', function () {
+      example = add('/foo/anArray/-',example,'test');
+      expect(example.foo.anArray.length).toEqual(4);
+      expect(example.foo.anArray[3]).toEqual('test');
+    });
 
     it('should fail if the object value already exists', function () {
       expect(function () {
@@ -111,9 +117,10 @@ describe('JSONPointer', function () {
       return (new jsonpatch.JSONPointer(pointerStr)).get(doc);
     }
 
-    describe('examples from JSONPointer spec', function () {
+    describe('JSONPointer examples', function () {
       var doc = {
         "foo": ["bar", "baz"],
+        "numbers": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
         "": 0,
         "a/b": 1,
         "c%d": 2,
@@ -126,6 +133,7 @@ describe('JSONPointer', function () {
       };
 
       var examples = {
+        // Examples from the spec document
         ""     :doc,
         "/foo"  :["bar", "baz"],
         "/foo/0":"bar",
@@ -137,7 +145,11 @@ describe('JSONPointer', function () {
         "/i\\j" :5,
         "/k\"l" :6,
         "/ "    :7,
-        "/m~0n" :8
+        "/m~0n" :8,
+        // Extra examples
+        "/numbers/010": 10,
+        "/numbers/00010": 10,
+        "/numbers/-": undefined
       };
 
       Object.keys(examples).forEach(function (example) {
