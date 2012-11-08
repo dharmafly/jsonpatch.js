@@ -374,11 +374,33 @@ describe('JSONPatch', function () {
           "foo":"bar",
           "baz":"qux"
         }
+      },
+      // See below for A.11
+      
+      // The spec is a little unclear about what the result of A.12
+      // should be, but it is clear that it SHOULD NOT be interpreted
+      // as an add operation.
+      'A.12.   Invalid JSON Patch Document': {
+        doc: {
+          "baz": "hello"
+        },
+        patch: "[{ \"op\":\"add\", \"path\":\"/baz\", \"value\":\"qux\", \"op\":\"remove\" }]",
+        result: {
+        }
       }
     };
 
     Object.keys(examples).forEach(function (name) {
       it(name, function () { check(examples[name]); });
+    });
+
+    it('A.12.  Adding to a Non-existant Target', function () {
+      var doc = {
+        "foo": "bar"
+      };
+      expect(function () {
+        jsonpatch.apply_patch(doc, [{ "op": "add", "path": "/baz/bat", "value": "qux" }]);
+      }).toThrow(new jsonpatch.InvalidPatch('Path not found in document'));
     });
 
     it('A.8. Testing a Value: Success');
