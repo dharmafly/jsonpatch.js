@@ -19,11 +19,13 @@ Quick Example
       "foo": "bar"
     };
     thepatch = [
-      { "replace": "/baz", "value": "boo" }
+      { "op": "replace", "path": "/baz", "value": "boo" }
     ]
     patcheddoc = jsonpatch.apply_patch(mydoc, thepatch);
     // patcheddoc now equals {"baz": "boo", "foo": "bar"}}
 ```
+
+And thay's all you need for basic use. For more see the [docs][#site].
 
 Is it any good?
 ---------------
