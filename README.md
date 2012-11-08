@@ -1,4 +1,4 @@
-UPDATE: JSON Patch draft 4 has just been released which contains two new operations (move and test). This library will be updated to support them shortly.
+NEW: Now suppots JSONPointer Draft 05 and JSONPatch Draft 06 (the latest as of 8/Nov/2012)
 
 JSONPatch
 =========
@@ -71,5 +71,5 @@ Great! Send me a pull request [through GitHub](http://github.com/dharmafly/jsonp
 [#dharmafly]: http://dharmafly.com
 [#nodejs]: http://nodejs.org
 [#backbone]: http://documentcloud.github.com/backbone/
-[#jsonpatch]: http://tools.ietf.org/html/draft-pbryan-json-patch-01
-[#jsonpointer]:http://tools.ietf.org/html/draft-pbryan-zyp-json-pointer-02
+[#jsonpatch]: http://tools.ietf.org/html/draft-pbryan-json-patch-06
+[#jsonpointer]:http://tools.ietf.org/html/draft-pbryan-zyp-json-pointer-05
