@@ -152,11 +152,13 @@ describe('JSONPointer', function () {
         "/numbers/-": undefined
       };
 
-      Object.keys(examples).forEach(function (example) {
-        it('should get the correct pointed object for example "' + example + '"', function () {
-          expect(do_get(example, doc)).toEqual(examples[example]);
-        });
-      });
+      for (var example in examples) {
+        (function (example) {
+          it('should get the correct pointed object for example "' + example + '"', function () {
+            expect(do_get(example, doc)).toEqual(examples[example]);
+          });
+        })(example);
+      }
     });
 
     it('should get the object pointed to', function () {
@@ -433,9 +435,11 @@ describe('JSONPatch', function () {
       },
     };
 
-    Object.keys(examples).forEach(function (name) {
-      it(name, function () { check(examples[name]); });
-    });
+    for (var name in examples) {
+      (function (name) {
+        it(name, function () { check(examples[name]); });
+      })(name);
+    }
 
     it('A.9.  Testing a Value: Error', function () {
       var doc = {
