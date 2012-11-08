@@ -7,12 +7,14 @@
     <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.1.0/jasmine_favicon.png"/>
 
     <link rel="stylesheet" type="text/css" href="lib/jasmine-1.1.0/jasmine.css"/>
+
+    <!--[if lt IE 8]> 
+    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <![endif]-->
     
     <script type="text/javascript" src="lib/jasmine-1.1.0/jasmine.js"></script>
     <script type="text/javascript" src="lib/jasmine-1.1.0/jasmine-html.js"></script>
 
-    <!-- Uncomment this line to make the tests pass on browser without native JSON support -->
-    <!-- script type="application/javascript" src="https://github.com/douglascrockford/JSON-js/blob/master/json2.js"></script -->
     
     <script type="text/javascript" src="../lib/jsonpatch.js"></script>
 
@@ -44,7 +46,7 @@
         }
 
       })();
-    </script>    
+    </script>
   </head>
   <body>
     <h1>Use this to test jsonpatch in your browser! </h1>

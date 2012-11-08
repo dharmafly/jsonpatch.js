@@ -33,7 +33,7 @@ Yes, I hope so
 Does it work in the browser?
 ----------------------------
 
-Yes. The tests will run in the browser as well if you want to check.
+Yes. The tests will run in the browser as well if you want to check. It's been tested in modern browsers and even in IE6!
 
 
 Does it work with Node.JS?

@@ -432,7 +432,7 @@ describe('JSONPatch', function () {
           "baz": "qux",
           "foo": [ "a", 2, "c" , true, [-1], {a:'b'}]
         }
-      },
+      }
     };
 
     for (var name in examples) {
