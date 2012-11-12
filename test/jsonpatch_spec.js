@@ -198,6 +198,34 @@ describe('JSONPatch', function () {
 
   });
 
+
+  
+  it('should not mutate the source document', function () {
+    var doc = {
+      "foo": {
+        "anArray": [
+          { "prop": 44 },
+          "second",
+          "third"
+        ],
+        "another prop": {
+          "baz": "A string"
+        }
+      }
+    };
+    var json = JSON.stringify(doc);
+    var patch = [
+      {"op": "remove", "path": "/foo/another prop/baz"},
+      {"op": "add", "path": "/foo/new", "value": "hello"},
+      {"op": "move", "path": "/foo/new", "to": "/newnew"},
+      {"op": "copy", "path": "/foo/anArray/1", "to": "/foo/anArray/-"},
+      {"op": "test", "path": "/foo/anArray/3", "value": "second"}
+    ];
+    var patched = jsonpatch.apply_patch(doc, patch);
+    // Check that the doc has not been mutated
+    expect(JSON.stringify(doc)).toEqual(json)
+  });
+
   // describe('._operations', function () {
   // });
 
