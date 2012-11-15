@@ -11,11 +11,12 @@ Example
       "foo": "bar"
     };
     thepatch = [
-      { "replace": "/baz", "value": "boo" }
+      { "op": "replace", "path": "/baz", "value": "boo" }
     ]
     patcheddoc = jsonpatch.apply_patch(mydoc, thepatch);
     // patcheddoc now equals {"baz": "boo", "foo": "bar"}}
 
+And that's all you need for basic use.
 
 Where can jsonpatch.js be used?
 -------------------------------
