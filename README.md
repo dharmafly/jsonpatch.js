@@ -1,3 +1,5 @@
+UPDATE: Another draft of JSONPatch is out (07) and there are breaking changes. We'll update soon!
+
 NEW: Now suppots JSONPointer Draft 05 and JSONPatch Draft 06 (the latest as of 8/Nov/2012)
 
 JSONPatch
