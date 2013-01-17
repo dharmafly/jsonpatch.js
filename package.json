@@ -15,6 +15,16 @@
     "scripts": {
         "test": "jasmine-node -i lib test && jshint lib"
     },
+    "testling": {
+      "files": "test/*.js",
+      "browsers": {
+        "ie": [ 6, 7, 8, 9 ],
+        "firefox": [ 13 ],
+        "chrome": [ 20 ],
+        "safari": [ 5.1 ],
+        "opera": [ 12 ]
+      }
+    },
     "repository" : {"type": "git", "url": "git://github.com/dhamrafly/jsonpatch.js"},
     "directories" : { "lib" : "./lib/" , "doc" : "./doc/" },
     "engines": { "node": ">=0.4.0" },
