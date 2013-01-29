@@ -1,9 +1,16 @@
 if ('function' === typeof require) {
   if (jsonpatch == null) {
-    var jsonpatch = require('../lib/jsonpatch');
+    jsonpatch = require('../lib/jsonpatch');
   }
-  var expect = require('expect.js');
+  if (expect == null) {
+    expect = require('expect.js');
+  }
 }
+
+// blow away the stack trace here (stops stack errors from Mocha on IE)
+beforeEach(function(done){
+  setTimeout(done, 0);
+});
 
 describe('JSONPointer', function () {
   var example;
@@ -34,6 +41,7 @@ describe('JSONPointer', function () {
       example = add('/foo/newprop',example,'test');
       expect(example.foo.newprop).equal('test');
     });
+    
     it('should add an element to list, pushing up the remaing values', function () {
       example = add('/foo/anArray/1',example,'test');
       expect(example.foo.anArray.length).equal(4);
@@ -42,17 +50,17 @@ describe('JSONPointer', function () {
     });
 
     it('should allow adding to the end of an array', function () {
-      example = add('/foo/anArray/3',example,'test');
-      expect(example.foo.anArray.length).equal(4);
-      expect(example.foo.anArray[3]).equal('test');
-    });
-    
-    it('should allow adding to the end of an array', function () {
       example = add('/foo/anArray/-',example,'test');
       expect(example.foo.anArray.length).equal(4);
       expect(example.foo.anArray[3]).equal('test');
     });
 
+    it('should allow adding to the end of an array', function () {
+      example = add('/foo/anArray/3',example,'test');
+      expect(example.foo.anArray.length).equal(4);
+      expect(example.foo.anArray[3]).equal('test');
+    });
+    
     it('should fail if adding to an array would create a sparse array', function () {
       expect(function () {
         add('/foo/anArray/4',example,'test');

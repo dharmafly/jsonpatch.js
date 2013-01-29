@@ -3,9 +3,11 @@
 
 if ('function' === typeof require) {
   if (jsonpatch == null) {
-    var jsonpatch = require('../lib/jsonpatch');
+    jsonpatch = require('../lib/jsonpatch');
   }
-  var expect = require('expect.js');
+  if (expect == null) {
+    expect = require('expect.js');
+  }
 }
 
 function add_tests(name, tests) {
@@ -16,7 +18,11 @@ function add_tests(name, tests) {
           return;
         }
         it(test.comment || "Un-named test", function () {
-          var original_doc = JSON.stringify(test.doc);
+          // We want to skip this part if there isn't a JSON library
+          // loaded
+          if (typeof JSON !== "undefined") {
+            var original_doc = JSON.stringify(test.doc);
+          }
           if (test.patch) {
             var error = null;
             try {
@@ -33,8 +39,10 @@ function add_tests(name, tests) {
               }
             }
           }
-          // Make sure we never mutate the original document
-          expect(original_doc).eql(JSON.stringify(test.doc));
+          if (typeof JSON !== "undefined") {
+            // Make sure we never mutate the original document
+            expect(original_doc).eql(JSON.stringify(test.doc));
+          }
         });
       })(tests[i]);
     }
