@@ -1,5 +1,8 @@
-if ('function' === typeof require && jsonpatch == null) {
-  var jsonpatch = require('../lib/jsonpatch');
+if ('function' === typeof require) {
+  if (jsonpatch == null) {
+    var jsonpatch = require('../lib/jsonpatch');
+  }
+  var expect = require('chai').expect;
 }
 
 describe('JSONPointer', function () {
@@ -29,41 +32,41 @@ describe('JSONPointer', function () {
 
     it('should add a element to an object', function () {
       example = add('/foo/newprop',example,'test');
-      expect(example.foo.newprop).toEqual('test');
+      expect(example.foo.newprop).equal('test');
     });
     it('should add an element to list, pushing up the remaing values', function () {
       example = add('/foo/anArray/1',example,'test');
-      expect(example.foo.anArray.length).toEqual(4);
-      expect(example.foo.anArray[1]).toEqual('test');
-      expect(example.foo.anArray[2]).toEqual('second');
+      expect(example.foo.anArray.length).equal(4);
+      expect(example.foo.anArray[1]).equal('test');
+      expect(example.foo.anArray[2]).equal('second');
     });
 
     it('should allow adding to the end of an array', function () {
       example = add('/foo/anArray/3',example,'test');
-      expect(example.foo.anArray.length).toEqual(4);
-      expect(example.foo.anArray[3]).toEqual('test');
+      expect(example.foo.anArray.length).equal(4);
+      expect(example.foo.anArray[3]).equal('test');
     });
     
     it('should allow adding to the end of an array', function () {
       example = add('/foo/anArray/-',example,'test');
-      expect(example.foo.anArray.length).toEqual(4);
-      expect(example.foo.anArray[3]).toEqual('test');
+      expect(example.foo.anArray.length).equal(4);
+      expect(example.foo.anArray[3]).equal('test');
     });
 
     it('should fail if adding to an array would create a sparse array', function () {
       expect(function () {
         add('/foo/anArray/4',example,'test');
-      }).toThrow(new jsonpatch.PatchApplyError('Add operation must not attempt to create a sparse array!'));
+      }).throws(jsonpatch.PatchApplyError, 'Add operation must not attempt to create a sparse array!');
     });
 
     it('should should fail if the place to add specified does not exist', function () {
       expect(function () {
         add('/foo/newprop/alsonew',example,'test');
-      }).toThrow(new jsonpatch.PatchApplyError('Path not found in document'));
+      }).throws(jsonpatch.PatchApplyError, 'Path not found in document');
     });
 
     it('should should succeed when replacing the root', function () {
-      expect(add('',{foo: "bar"},'test')).toEqual('test');
+      expect(add('',{foo: "bar"},'test')).equal('test');
     });
   });
 
@@ -74,29 +77,29 @@ describe('JSONPointer', function () {
 
     it('should remove an object key', function () {
       example = do_remove("/foo", example);
-      expect(example.foo).toBeUndefined();
+      expect(example.foo).an('undefined');
     });
 
     it('should remove an item from an array', function () {
       example = do_remove("/foo/anArray/1", example);
-      expect(example.foo.anArray.length).toEqual(2);
-      expect(example.foo.anArray[1]).toEqual('third');
+      expect(example.foo.anArray.length).equal(2);
+      expect(example.foo.anArray[1]).equal('third');
     });
 
     it('should fail if the object key specified doesnt exist', function () {
-      expect(function () {do_remove('/foo/notthere', example);}).toThrow(new jsonpatch.PatchApplyError('Remove operation must point to an existing value!'));
+      expect(function () {do_remove('/foo/notthere', example);}).throws(jsonpatch.PatchApplyError, 'Remove operation must point to an existing value!');
     });
 
     it('should should fail if the path specified doesnt exist', function () {
-      expect(function () {do_remove('/foo/notthere/orhere', example);}).toThrow(new jsonpatch.PatchApplyError('Path not found in document'));
+      expect(function () {do_remove('/foo/notthere/orhere', example);}).throws(jsonpatch.PatchApplyError, 'Path not found in document');
     });
 
     it('should fail if the array element specified doesnt exist', function () {
-      expect(function () {do_remove('/foo/anArray/4', example);}).toThrow(new jsonpatch.PatchApplyError('Remove operation must point to an existing value!'));
+      expect(function () {do_remove('/foo/anArray/4', example);}).throws(jsonpatch.PatchApplyError, 'Remove operation must point to an existing value!');
     });
 
     it('should return undefined when removing the root', function () {
-      expect(do_remove('', example)).toBeUndefined();
+      expect(do_remove('', example)).an('undefined');
     });
   });
 
@@ -143,18 +146,18 @@ describe('JSONPointer', function () {
       for (var example in examples) {
         (function (example) {
           it('should get the correct pointed object for example "' + example + '"', function () {
-            expect(do_get(example, doc)).toEqual(examples[example]);
+            expect(do_get(example, doc)).eql(examples[example]);
           });
         })(example);
       }
     });
 
     it('should get the object pointed to', function () {
-      expect(do_get('/foo/another prop/baz', example)).toEqual('A string');
+      expect(do_get('/foo/another prop/baz', example)).equal('A string');
     });
 
     it('should get the array element pointed to', function () {
-      expect(do_get('/foo/anArray/1', example)).toEqual('second');
+      expect(do_get('/foo/anArray/1', example)).equal('second');
     });
   });
 });
@@ -164,24 +167,24 @@ describe('JSONPatch', function () {
   describe('constructor', function () {
     it('should accept a JSON string as a patch', function () {
       patch = new jsonpatch.JSONPatch('[{"op":"remove", "path":"/"}]');
-      expect(patch = patch.compiledOps.length).toEqual(1);
+      expect(patch = patch.compiledOps.length).equal(1);
     });
     it('should accept a JS object as a patch', function () {
       patch = new jsonpatch.JSONPatch([{"op":"remove", "path":"/"}, {"op":"remove", "path":"/"}]);
-      expect(patch.compiledOps.length).toEqual(2);
+      expect(patch.compiledOps.length).equal(2);
     });
     it('should raise an error for  patches that arent arrays', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch({});}).toThrow(new jsonpatch.InvalidPatch('Patch must be an array of operations'));
+      expect(function () {patch = new jsonpatch.JSONPatch({});}).throws(jsonpatch.InvalidPatch, 'Patch must be an array of operations');
     });
     it('should raise an error if value is not supplied for add or replace operation', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{op:"add", path:'/'}]);}).toThrow(new jsonpatch.InvalidPatch('add must have key value'));
-      expect(function () {patch = new jsonpatch.JSONPatch([{op:"replace", path:'/'}]);}).toThrow(new jsonpatch.InvalidPatch('replace must have key value'));
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"add", path:'/'}]);}).throws(jsonpatch.InvalidPatch, 'add must have key value');
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"replace", path:'/'}]);}).throws(jsonpatch.InvalidPatch, 'replace must have key value');
     });
     it('should raise an error if an operation is not specified', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{}]);}).toThrow(new jsonpatch.InvalidPatch('Operation missing!'));
+      expect(function () {patch = new jsonpatch.JSONPatch([{}]);}).throws(jsonpatch.InvalidPatch, 'Operation missing!');
     });
     it('should raise an error if un-recognised operation is specified', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{op:"blam"}]);}).toThrow(new jsonpatch.InvalidPatch('Invalid operation!'));
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"blam"}]);}).throws(jsonpatch.InvalidPatch, 'Invalid operation!');
     });
 
   });
@@ -211,7 +214,7 @@ describe('JSONPatch', function () {
     ];
     var patched = jsonpatch.apply_patch(doc, patch);
     // Check that the doc has not been mutated
-    expect(JSON.stringify(doc)).toEqual(json)
+    expect(JSON.stringify(doc)).equal(json)
   });
 
   // describe('._operations', function () {
@@ -224,15 +227,15 @@ describe('JSONPatch', function () {
       var callOrder = [];
       function mockOp(name) {
         return function(doc) {
-          expect(doc).toEqual('TEST_DOC');
+          expect(doc).equal('TEST_DOC');
           callOrder.push(name);
           return doc;
         };
       }
       patch.compiledOps = [mockOp('one'),mockOp('two'),mockOp('three')];
       patch.apply('TEST_DOC');
-      expect(callOrder[0]).toEqual('one');
-      expect(callOrder[2]).toEqual('three');
+      expect(callOrder[0]).equal('one');
+      expect(callOrder[2]).equal('three');
     });
   });
 
@@ -241,7 +244,7 @@ describe('JSONPatch', function () {
       var doc = {a:{b:true, c:false}};
       expect(function () {
         jsonpatch.apply_patch(doc, [{op: 'move', from: '/a', path: '/a/b'}]);
-      }).toThrow(new jsonpatch.InvalidPatch('destination must not be a child of source'));
+      }).throws(jsonpatch.InvalidPatch, 'destination must not be a child of source');
     });
     it('MUST ALLOW source to start with the destinations string as long as one is not actually a subset of the other', function () {
       var doc = {a:{b:true, c:false}};
@@ -253,7 +256,7 @@ describe('JSONPatch', function () {
     it('should reject unknown patch operations (even if they are properties of the base Object)', function () {
       expect(function () {
         new jsonpatch.JSONPatch([{op:'hasOwnProperty', path:'/'}]);
-      }).toThrow(new jsonpatch.InvalidPatch('Invalid operation!'));
+      }).throws(jsonpatch.InvalidPatch, 'Invalid operation!');
     });
   });
 
@@ -269,11 +272,11 @@ describe('JSONPatch', function () {
           {"op": "add", "path": "/delta", "value": 2},
           {"op": "replace", "path": "/beta///", "value": 2}
         ]);
-      }).toThrow(new Error('Path not found in document'));
+      }).throws(Error, 'Path not found in document');
 
 
-      expect(doc.beta).toEqual(undefined);
-      //expect(doc.delta).toEqual(undefined);
+      expect(doc.beta).equal(undefined);
+      //expect(doc.delta).equal(undefined);
     });
   });
 

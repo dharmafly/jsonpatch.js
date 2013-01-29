@@ -1,8 +1,11 @@
 // A wrapper round the tests from https://github.com/json-patch/json-patch-tests
 // to make them run against jsonpatch.js
 
-if ('function' === typeof require && jsonpatch == null) {
-  var jsonpatch = require('../lib/jsonpatch');
+if ('function' === typeof require) {
+  if (jsonpatch == null) {
+    var jsonpatch = require('../lib/jsonpatch');
+  }
+  var expect = require('chai').expect;
 }
 
 function add_tests(name, tests) {
@@ -22,16 +25,16 @@ function add_tests(name, tests) {
               error = e;
             }
             if (test.error) {
-              expect(error).not.toBe(null);
+              expect(error).not.null;
             } else {
-              expect(error).toBe(null);
+              expect(error).null;
               if (test.expected) {
-                expect(result).toEqual(test.expected);
+                expect(result).eql(test.expected);
               }
             }
           }
           // Make sure we never mutate the original document
-          expect(original_doc).toEqual(JSON.stringify(test.doc));
+          expect(original_doc).eql(JSON.stringify(test.doc));
         });
       })(tests[i]);
     }

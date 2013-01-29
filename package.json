@@ -9,20 +9,18 @@
     "dependencies": {
     },
     "devDependencies": {
-        "jshint": "0.3.0",
-        "jasmine-node": "1.0.28"
+        "mocha": "1.8.1",
+        "chai": "1.4.2",
+        "jshint": "0.3.0"
     },
     "scripts": {
-        "test": "jasmine-node -i lib test && jshint lib"
+        "test": "mocha test/test.*.js && jshint lib"
     },
     "testling": {
-      "scripts": [
-          "test/lib/jasmine-1.3.1/jasmine.js",
-          "test/lib/tapreporter.js",
-          "lib/jsonpatch.js",
-          "test/*_spec.js",
-          "test/testling_ci_runner.js"
+      "tests": [
+          "test/test.*.js"
       ],
+      "harness": "mocha",
       "browsers": {
         "ie": [ 6, 7, 8, 9, 10],
         "firefox": [ 13 ],
