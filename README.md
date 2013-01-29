@@ -1,11 +1,11 @@
-UPDATE: Another draft of JSONPatch is out (07) and there are breaking changes. We'll update soon!
+NEW: Now suppots JSONPointer Draft 09 and JSONPatch Draft 10 (the latest as of 21/Jan/2012)
 
-NEW: Now suppots JSONPointer Draft 05 and JSONPatch Draft 06 (the latest as of 8/Nov/2012)
+[![Build Status](https://secure.travis-ci.org/dharmafly/jsonpatch.js.png)](http://travis-ci.org/dharmafly/jsonpatch.js)
 
 JSONPatch
 =========
 
-An implementation of the [JSONPatch][#jsonpatch] (and [JSONPointer][#jsonpointer]) IETF drafts.
+An implementation of the [JSONPatch][#jsonpatch] (and [JSONPointer][#jsonpointer]) IETF drafts for Node.JS and the Browser (as a plain module or with AMD).
 
 A [Dharmafly][#dharmafly] project written by [Thomas Parslow][#tom] <tom@almostobsolete.net> and released with the kind permission of [NetDev][#netdev].
 
@@ -27,7 +27,7 @@ Quick Example
     // patcheddoc now equals {"baz": "boo", "foo": "bar"}}
 ```
 
-And that's all you need for basic use. For more see the [docs][#site].
+And that's all you need for basic use, if the patch is invalid or won't apply then you'll get an error thrown. The original doc is NOT mutated so you can use it for other things afterwards. For more see the [docs][#site].
 
 Is it any good?
 ---------------
@@ -50,7 +50,7 @@ Yes. Install with:
 Is it finished?
 ---------------
 
-Probably. I do have some ideas for some extra bits but nothing that would break backwards compatibility. I'll probably bump the version up to 1.0.0 in a few weeks if no one spots any problems with the way it works now.
+Probably, unless the spec changes again :)
 
 Are there tests?
 ----------------
@@ -75,5 +75,5 @@ Great! Send me a pull request [through GitHub](http://github.com/dharmafly/jsonp
 [#dharmafly]: http://dharmafly.com
 [#nodejs]: http://nodejs.org
 [#backbone]: http://documentcloud.github.com/backbone/
-[#jsonpatch]: http://tools.ietf.org/html/draft-pbryan-json-patch-06
-[#jsonpointer]:http://tools.ietf.org/html/draft-pbryan-zyp-json-pointer-05
+[#jsonpatch]: https://datatracker.ietf.org/doc/draft-ietf-appsawg-json-patch/
+[#jsonpointer]: https://datatracker.ietf.org/doc/draft-ietf-appsawg-json-pointer/
