@@ -2,12 +2,8 @@
 // to make them run against jsonpatch.js
 
 if ('function' === typeof require) {
-  if (jsonpatch == null) {
-    jsonpatch = require('../lib/jsonpatch');
-  }
-  if (expect == null) {
-    expect = require('expect.js');
-  }
+  jsonpatch = require('../lib/jsonpatch');
+  expect = require('expect.js');
 }
 
 function add_tests(name, tests) {

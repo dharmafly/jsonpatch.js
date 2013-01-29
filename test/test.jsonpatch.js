@@ -1,10 +1,6 @@
 if ('function' === typeof require) {
-  if (jsonpatch == null) {
-    jsonpatch = require('../lib/jsonpatch');
-  }
-  if (expect == null) {
-    expect = require('expect.js');
-  }
+  jsonpatch = require('../lib/jsonpatch');
+  expect = require('expect.js');
 }
 
 // blow away the stack trace here (stops stack errors from Mocha on IE)
