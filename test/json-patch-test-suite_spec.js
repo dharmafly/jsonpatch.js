@@ -20,13 +20,13 @@ function add_tests(name, tests) {
             } catch (e) {
               error = e;
             }
-            if (test.expected) {
-              expect(result).toEqual(test.expected);
-            }
             if (test.error) {
               expect(error).not.toBe(null);
             } else {
               expect(error).toBe(null);
+              if (test.expected) {
+                expect(result).toEqual(test.expected);
+              }
             }
           }
         });
