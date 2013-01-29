@@ -10,7 +10,7 @@
     },
     "devDependencies": {
         "mocha": "1.8.1",
-        "expect": "0.2.0",
+        "expect.js": "0.2.0",
         "jshint": "0.3.0"
     },
     "scripts": {
