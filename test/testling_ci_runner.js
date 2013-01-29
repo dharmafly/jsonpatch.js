@@ -1,10 +1,16 @@
 // Used to run the tests on Testling CI
-var jasmineEnv = jasmine.getEnv();
-jasmineEnv.updateInterval = 1000;
 
-// Produce TAP output for Testling CI
-jasmineEnv.addReporter(new TAPReporter(function (s) {console.log(s);}));
+// Testling adds stuff which fools other modules into thinking they're
+// on Node.JS, let's get rid of them.
+delete exports;
+delete module;
+delete require;
 
 window.onload = function() {
+   var jasmineEnv = jasmine.getEnv();
+   jasmineEnv.updateInterval = 1000;
+   
+   // Produce TAP output for Testling CI
+   jasmineEnv.addReporter(new TAPReporter(function (s) {console.log(s);}));
   jasmineEnv.execute();
 };
