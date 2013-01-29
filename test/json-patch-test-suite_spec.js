@@ -285,6 +285,11 @@ add_tests('tests.json', [
       "patch": [{"op": "copy", "from": "/baz/0", "path": "/boo"}],
       "expected": {"baz":[{"qux":"hello"}],"bar":1,"boo":{"qux":"hello"}} },
 
+    { "comment": "replacing the root of the document is possible with add",
+      "doc": {"foo": "bar"},
+      "patch": [{"op": "add", "path": "", "value": {"baz": "qux"}}],
+      "expected": {"baz":"qux"}},
+
     { "comment": "tests complete" }
 ]);
 

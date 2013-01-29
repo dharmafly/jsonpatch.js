@@ -62,14 +62,8 @@ describe('JSONPointer', function () {
       }).toThrow(new jsonpatch.PatchApplyError('Path not found in document'));
     });
 
-    it('should should fail when trying to add the root to a non-undefined value', function () {
-      expect(function () {
-        add('',example,'test');
-      }).toThrow(new jsonpatch.PatchApplyError('Add operation must not point to an existing value!'));
-    });
-
-    it('should should succeed if replacing the root in undefined ', function () {
-      expect(add('',undefined,'test')).toEqual('test');
+    it('should should succeed when replacing the root', function () {
+      expect(add('',{foo: "bar"},'test')).toEqual('test');
     });
   });
 
