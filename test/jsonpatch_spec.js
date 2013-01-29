@@ -1,4 +1,4 @@
-if ('function' === typeof require) {
+if ('function' === typeof require && jsonpatch == null) {
   var jsonpatch = require('../lib/jsonpatch');
 }
 
