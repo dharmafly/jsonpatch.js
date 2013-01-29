@@ -5,7 +5,7 @@ if ('function' === typeof require) {
   if (jsonpatch == null) {
     var jsonpatch = require('../lib/jsonpatch');
   }
-  var expect = require('chai').expect;
+  var expect = require('expect');
 }
 
 function add_tests(name, tests) {

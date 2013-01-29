@@ -2,7 +2,7 @@ if ('function' === typeof require) {
   if (jsonpatch == null) {
     var jsonpatch = require('../lib/jsonpatch');
   }
-  var expect = require('chai').expect;
+  var expect = require('expect');
 }
 
 describe('JSONPointer', function () {
@@ -56,13 +56,13 @@ describe('JSONPointer', function () {
     it('should fail if adding to an array would create a sparse array', function () {
       expect(function () {
         add('/foo/anArray/4',example,'test');
-      }).throws(jsonpatch.PatchApplyError, 'Add operation must not attempt to create a sparse array!');
+      }).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Add operation must not attempt to create a sparse array!') });
     });
 
     it('should should fail if the place to add specified does not exist', function () {
       expect(function () {
         add('/foo/newprop/alsonew',example,'test');
-      }).throws(jsonpatch.PatchApplyError, 'Path not found in document');
+      }).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Path not found in document') });
     });
 
     it('should should succeed when replacing the root', function () {
@@ -87,15 +87,15 @@ describe('JSONPointer', function () {
     });
 
     it('should fail if the object key specified doesnt exist', function () {
-      expect(function () {do_remove('/foo/notthere', example);}).throws(jsonpatch.PatchApplyError, 'Remove operation must point to an existing value!');
+      expect(function () {do_remove('/foo/notthere', example);}).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Remove operation must point to an existing value!') });
     });
 
     it('should should fail if the path specified doesnt exist', function () {
-      expect(function () {do_remove('/foo/notthere/orhere', example);}).throws(jsonpatch.PatchApplyError, 'Path not found in document');
+      expect(function () {do_remove('/foo/notthere/orhere', example);}).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Path not found in document') });
     });
 
     it('should fail if the array element specified doesnt exist', function () {
-      expect(function () {do_remove('/foo/anArray/4', example);}).throws(jsonpatch.PatchApplyError, 'Remove operation must point to an existing value!');
+      expect(function () {do_remove('/foo/anArray/4', example);}).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Remove operation must point to an existing value!') });
     });
 
     it('should return undefined when removing the root', function () {
@@ -174,17 +174,17 @@ describe('JSONPatch', function () {
       expect(patch.compiledOps.length).equal(2);
     });
     it('should raise an error for  patches that arent arrays', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch({});}).throws(jsonpatch.InvalidPatch, 'Patch must be an array of operations');
+      expect(function () {patch = new jsonpatch.JSONPatch({});}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('Patch must be an array of operations') });
     });
     it('should raise an error if value is not supplied for add or replace operation', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{op:"add", path:'/'}]);}).throws(jsonpatch.InvalidPatch, 'add must have key value');
-      expect(function () {patch = new jsonpatch.JSONPatch([{op:"replace", path:'/'}]);}).throws(jsonpatch.InvalidPatch, 'replace must have key value');
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"add", path:'/'}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('add must have key value') });
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"replace", path:'/'}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('replace must have key value') });
     });
     it('should raise an error if an operation is not specified', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{}]);}).throws(jsonpatch.InvalidPatch, 'Operation missing!');
+      expect(function () {patch = new jsonpatch.JSONPatch([{}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('Operation missing!') });
     });
     it('should raise an error if un-recognised operation is specified', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{op:"blam"}]);}).throws(jsonpatch.InvalidPatch, 'Invalid operation!');
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"blam"}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('Invalid operation!') });
     });
 
   });
@@ -244,7 +244,7 @@ describe('JSONPatch', function () {
       var doc = {a:{b:true, c:false}};
       expect(function () {
         jsonpatch.apply_patch(doc, [{op: 'move', from: '/a', path: '/a/b'}]);
-      }).throws(jsonpatch.InvalidPatch, 'destination must not be a child of source');
+      }).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('destination must not be a child of source') });
     });
     it('MUST ALLOW source to start with the destinations string as long as one is not actually a subset of the other', function () {
       var doc = {a:{b:true, c:false}};
@@ -256,7 +256,7 @@ describe('JSONPatch', function () {
     it('should reject unknown patch operations (even if they are properties of the base Object)', function () {
       expect(function () {
         new jsonpatch.JSONPatch([{op:'hasOwnProperty', path:'/'}]);
-      }).throws(jsonpatch.InvalidPatch, 'Invalid operation!');
+      }).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('Invalid operation!') });
     });
   });
 
@@ -272,7 +272,7 @@ describe('JSONPatch', function () {
           {"op": "add", "path": "/delta", "value": 2},
           {"op": "replace", "path": "/beta///", "value": 2}
         ]);
-      }).throws(Error, 'Path not found in document');
+      }).throwException(function (e) { expect(e).a(Error); expect(e.message).equal('Path not found in document') });
 
 
       expect(doc.beta).equal(undefined);
