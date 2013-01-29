@@ -13,6 +13,7 @@ function add_tests(name, tests) {
           return;
         }
         it(test.comment || "Un-named test", function () {
+          var original_doc = JSON.stringify(test.doc);
           if (test.patch) {
             var error = null;
             try {
@@ -29,6 +30,8 @@ function add_tests(name, tests) {
               }
             }
           }
+          // Make sure we never mutate the original document
+          expect(original_doc).toEqual(JSON.stringify(test.doc));
         });
       })(tests[i]);
     }
