@@ -5,7 +5,7 @@ if ('function' === typeof require) {
   if (jsonpatch == null) {
     var jsonpatch = require('../lib/jsonpatch');
   }
-  var expect = require('expect');
+  var expect = require('expect.js');
 }
 
 function add_tests(name, tests) {
@@ -25,9 +25,9 @@ function add_tests(name, tests) {
               error = e;
             }
             if (test.error) {
-              expect(error).not.null;
+              expect(error).not.to.be(null);
             } else {
-              expect(error).null;
+              expect(error).to.be(null);
               if (test.expected) {
                 expect(result).eql(test.expected);
               }

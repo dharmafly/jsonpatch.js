@@ -2,7 +2,7 @@ if ('function' === typeof require) {
   if (jsonpatch == null) {
     var jsonpatch = require('../lib/jsonpatch');
   }
-  var expect = require('expect');
+  var expect = require('expect.js');
 }
 
 describe('JSONPointer', function () {
