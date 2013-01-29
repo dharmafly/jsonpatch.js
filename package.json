@@ -17,7 +17,7 @@
         "test": "mocha test/test.*.js && jshint lib"
     },
     "testling": {
-      "tests": [
+      "files": [
           "test/test.*.js"
       ],
       "harness": "mocha",
