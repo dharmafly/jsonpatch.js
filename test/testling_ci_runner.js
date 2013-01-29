@@ -6,5 +6,5 @@ window.onload = function() {
    
    // Produce TAP output for Testling CI
    jasmineEnv.addReporter(new TAPReporter(function (s) {console.log(s);}));
-  jasmineEnv.execute();
+   jasmineEnv.execute();
 };

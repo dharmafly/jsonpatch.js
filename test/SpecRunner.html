@@ -30,9 +30,6 @@
           return trivialReporter.specFilter(spec);
         };
         
-        // Produce TAP output for Testling CI
-        jasmineEnv.addReporter(new TAPReporter(function (s) {console.log(s);}));
-
         var currentWindowOnload = window.onload;
 
         window.onload = function() {
