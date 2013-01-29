@@ -11,7 +11,7 @@
     "devDependencies": {
         "jshint": "0.3.0",
         "jasmine-node": "git://github.com/mhevery/jasmine-node.git",
-        "jasmine-tapreport": "0.2.2"
+        "jasmine-tapreporter": "0.2.2"
     },
     "scripts": {
         "test": "jasmine-node -i lib test && jshint lib"
