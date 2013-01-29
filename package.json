@@ -10,13 +10,14 @@
     },
     "devDependencies": {
         "jshint": "0.3.0",
-        "jasmine-node": "git://github.com/mhevery/jasmine-node.git"
+        "jasmine-node": "git://github.com/mhevery/jasmine-node.git",
+        "jasmine-tapreport": "0.2.2"
     },
     "scripts": {
         "test": "jasmine-node -i lib test && jshint lib"
     },
     "testling": {
-      "files": "test/*.js",
+      "files": "test/tap_runner.js",
       "browsers": {
         "ie": [ 6, 7, 8, 9 ],
         "firefox": [ 13 ],

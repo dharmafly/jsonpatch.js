@@ -1,5 +1,5 @@
 if ('function' === typeof require) {
-  jsonpatch = require('../lib/jsonpatch');
+  var jsonpatch = require('../lib/jsonpatch');
 }
 
 describe('JSONPointer', function () {
