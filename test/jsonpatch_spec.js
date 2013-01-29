@@ -50,12 +50,6 @@ describe('JSONPointer', function () {
       expect(example.foo.anArray[3]).toEqual('test');
     });
 
-    it('should fail if the object value already exists', function () {
-      expect(function () {
-        add('/foo/another prop',example,'test');
-      }).toThrow(new jsonpatch.PatchApplyError('Add operation must not point to an existing value!'));
-    });
-
     it('should fail if adding to an array would create a sparse array', function () {
       expect(function () {
         add('/foo/anArray/4',example,'test');
@@ -217,8 +211,8 @@ describe('JSONPatch', function () {
     var patch = [
       {"op": "remove", "path": "/foo/another prop/baz"},
       {"op": "add", "path": "/foo/new", "value": "hello"},
-      {"op": "move", "path": "/foo/new", "to": "/newnew"},
-      {"op": "copy", "path": "/foo/anArray/1", "to": "/foo/anArray/-"},
+      {"op": "move", "from": "/foo/new", "path": "/newnew"},
+      {"op": "copy", "from": "/foo/anArray/1", "path": "/foo/anArray/-"},
       {"op": "test", "path": "/foo/anArray/3", "value": "second"}
     ];
     var patched = jsonpatch.apply_patch(doc, patch);
@@ -248,264 +242,16 @@ describe('JSONPatch', function () {
     });
   });
 
-  describe('Examples from the JSON Patch draft', function () {
-    function deepEqual(a,b) {
-      var key;
-      if (typeof a !== typeof b) {
-        return false;
-      }
-      if ('object' === typeof(a)) {
-        for(key in a) {
-          if (!(key in b && deepEqual(a[key], b[key]))) {
-            return false;
-          }
-        }
-        for(key in b) {
-          if (!(key in a)) {
-            return false;
-          }
-        }
-        return true;
-      } else {
-        return a === b;
-      }
-    }
-
-    var check = function (example) {
-      var documentUnderTest = jsonpatch.apply_patch(example.doc, example.patch);
-      var eq = deepEqual(
-          documentUnderTest,
-          example.result
-        );
-      if (!eq) {
-        console.log('\n',documentUnderTest, '\n', example.result);
-      }
-      expect(eq).toEqual(true);
-    };
-
-
-    var examples = {
-      
-      'A.1.  Adding an Object Member': {
-        doc: {
-          "foo": "bar"
-        },
-        patch: [
-          { "op": "add", "path": "/baz", "value": "qux" }
-        ],
-        result: {
-          "baz": "qux",
-          "foo": "bar"
-       }
-      },
-      
-      'A.2.  Adding an Array Element': {
-        doc:{
-          "foo": [ "bar", "baz" ]
-        },
-        patch: [
-          { "op": "add", "path": "/foo/1", "value": "qux" }
-        ],
-        result: {
-          "foo": [ "bar", "qux", "baz" ]
-        }
-      },
-      
-      'A.3.  Removing an Object Member': {
-        doc: {
-          "baz": "qux",
-          "foo": "bar"
-        },
-        patch: [
-          { "op": "remove", "path": "/baz" }
-        ],
-        result: {
-          "foo": "bar"
-        }
-      },
-      
-      'A.4.  Removing an Array Element': {
-        doc: {
-          "foo": [ "bar", "qux", "baz" ]
-        },
-        patch: [
-          { "op": "remove", "path": "/foo/1" }
-        ],
-        result: {
-          "foo": [ "bar", "baz" ]
-        }
-      },
-      
-      'A.5.  Replacing a Value': {
-        doc: {
-          "baz": "qux",
-          "foo": "bar"
-        },
-        patch: [
-          { "op": "replace", "path": "/baz", "value": "boo" }
-        ],
-        result: {
-          "baz": "boo",
-          "foo": "bar"
-        }
-      },
-      
-      'A.6.  Moving a Value': {
-        doc: {
-          "foo": {
-            "bar": "baz",
-            "waldo": "fred"
-          },
-          "qux": {
-            "corge": "grault"
-          }
-       },
-       patch: [
-          { "op": "move", "path": "/foo/waldo", "to": "/qux/thud" }
-       ],
-       result: {
-          "foo": {
-            "bar": "baz"
-          },
-          "qux": {
-            "corge": "grault",
-            "thud": "fred"
-          }
-        }
-      },
-      
-      'A.7.  Moving an Array Element': {
-        doc: {
-          "foo": [ "all", "grass", "cows", "eat" ]
-        },
-        patch: [
-          { "op": "move", "path": "/foo/1", "to": "/foo/3" }
-        ],
-        result: {
-          "foo": [ "all", "cows", "eat", "grass" ]
-        }
-      },
-      
-      'A.8.  Testing a Value: Success': {
-        doc: {
-          "baz": "qux",
-          "foo": [ "a", 2, "c" ]
-        },
-        patch: [
-          { "op": "test", "path": "/baz", "value": "qux" },
-          { "op": "test", "path": "/foo/1", "value": 2 }
-        ],
-        result: {
-          "baz": "qux",
-          "foo": [ "a", 2, "c" ]
-        }
-      },
-
-      // See below for A.9 (it returns an error so has to handled
-      // differently)
-      
-      'A.10.  Adding a nested Member Object': {
-        doc: {
-          "foo": "bar"
-        },
-        patch: [
-          { "op": "add", "path": "/child", "value": { "grandchild": {} } }
-        ],
-        result: {
-          "foo": "bar",
-          "child": {
-            "grandchild": {}
-          }
-        }
-      },
-      
-      'A.10.   Ignoring Unrecognized Elements': {
-        doc: {
-          "foo": "bar"
-        },
-        patch: [
-          { "op":"add", "path":"/baz", "value":"qux", "xyz":123 }
-        ],
-        result: {
-          "foo":"bar",
-          "baz":"qux"
-        }
-      },
-      // See below for A.11 (it returns an error so has to be done in
-      // a different way)
-      
-      // The spec is a little unclear about what the result of A.12
-      // should be, but it is clear that it SHOULD NOT be interpreted
-      // as an add operation.
-      'A.12.   Invalid JSON Patch Document': {
-        doc: {
-          "baz": "hello"
-        },
-        patch: "[{ \"op\":\"add\", \"path\":\"/baz\", \"value\":\"qux\", \"op\":\"remove\" }]",
-        result: {
-        }
-      },
-
-      // Some extra examples not from the spec
-
-      'Test value with lots of types': {
-        doc: {
-          "baz": "qux",
-          "foo": [ "a", 2, "c" , true, [-1], {a:'b'}]
-        },
-        patch: [
-          { "op": "test", "path": "", "value": {"baz": "qux", "foo": [ "a", 2, "c" , true, [-1], {a:'b'}]} }
-        ],
-        result: {
-          "baz": "qux",
-          "foo": [ "a", 2, "c" , true, [-1], {a:'b'}]
-        }
-      }
-    };
-
-    for (var name in examples) {
-      (function (name) {
-        it(name, function () { check(examples[name]); });
-      })(name);
-    }
-
-    it('A.9.  Testing a Value: Error', function () {
-      var doc = {
-       "baz": "qux"
-      };
-      expect(function () {
-        jsonpatch.apply_patch(doc, [{ "op": "test", "path": "/baz", "value": "bar" }]);
-      }).toThrow(new jsonpatch.PatchApplyError("Test operation failed. Value did not match."));
-    });
-
-    it('A.12.  Adding to a Non-existant Target', function () {
-      var doc = {
-        "foo": "bar"
-      };
-      expect(function () {
-        jsonpatch.apply_patch(doc, [{ "op": "add", "path": "/baz/bat", "value": "qux" }]);
-      }).toThrow(new jsonpatch.InvalidPatch('Path not found in document'));
-    });
-
-
-  });
-
-  describe('to attribute', function () {
-    it('MUST NOT be part of the location specified by "path" in a move operation', function () {
+  describe('path attribute', function () {
+    it('MUST NOT be part of the location specified by "from" in a move operation', function () {
       var doc = {a:{b:true, c:false}};
       expect(function () {
-        jsonpatch.apply_patch(doc, [{op: 'move', path: '/a', to: '/a/b'}]);
-      }).toThrow(new jsonpatch.InvalidPatch('destination must not be a child of source'));
-    });
-    it('MUST NOT be part of the location specified by "path" in a copy operation', function () {
-      var doc = {a:{b:true, c:false}};
-      expect(function () {
-        jsonpatch.apply_patch(doc, [{op: 'copy', path: '/a', to: '/a/b'}]);
+        jsonpatch.apply_patch(doc, [{op: 'move', from: '/a', path: '/a/b'}]);
       }).toThrow(new jsonpatch.InvalidPatch('destination must not be a child of source'));
     });
     it('MUST ALLOW source to start with the destinations string as long as one is not actually a subset of the other', function () {
       var doc = {a:{b:true, c:false}};
-      jsonpatch.apply_patch(doc, [{op: 'copy', path: '/a', to: '/ab'}]);
+      jsonpatch.apply_patch(doc, [{op: 'copy', from: '/a', path: '/ab'}]);
     });
   });
 
