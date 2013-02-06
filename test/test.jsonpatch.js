@@ -169,10 +169,12 @@ describe('JSONPointer', function () {
 describe('JSONPatch', function () {
   var patch;
   describe('constructor', function () {
-    it('should accept a JSON string as a patch', function () {
-      patch = new jsonpatch.JSONPatch('[{"op":"remove", "path":"/"}]');
-      expect(patch = patch.compiledOps.length).equal(1);
-    });
+    if (typeof JSON === 'object') {
+      it('should accept a JSON string as a patch', function () {
+        patch = new jsonpatch.JSONPatch('[{"op":"remove", "path":"/"}]');
+        expect(patch = patch.compiledOps.length).equal(1);
+      });
+    }
     it('should accept a JS object as a patch', function () {
       patch = new jsonpatch.JSONPatch([{"op":"remove", "path":"/"}, {"op":"remove", "path":"/"}]);
       expect(patch.compiledOps.length).equal(2);
