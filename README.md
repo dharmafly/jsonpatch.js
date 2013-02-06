@@ -1,10 +1,7 @@
 NEW: Now suppots JSONPointer Draft 09 and JSONPatch Draft 10 (the latest as of 21/Jan/2012)
 
-[![Build Status](https://secure.travis-ci.org/dharmafly/jsonpatch.js.png)](http://travis-ci.org/dharmafly/jsonpatch.js)
 
-[![browser support](http://ci.testling.com/dharmafly/jsonpatch.js.png)](http://ci.testling.com/dharmafly/jsonpatch.js)
-
-JSONPatch
+JSONPatch [![Build Status](https://secure.travis-ci.org/dharmafly/jsonpatch.js.png)](http://travis-ci.org/dharmafly/jsonpatch.js) [![browser support](http://ci.testling.com/dharmafly/jsonpatch.js.png)](http://ci.testling.com/dharmafly/jsonpatch.js)
 =========
 
 An implementation of the [JSONPatch][#jsonpatch] (and [JSONPointer][#jsonpointer]) IETF drafts for Node.JS and the Browser (as a plain module or with AMD).
@@ -12,6 +9,7 @@ An implementation of the [JSONPatch][#jsonpatch] (and [JSONPointer][#jsonpointer
 A [Dharmafly][#dharmafly] project written by [Thomas Parslow][#tom] <tom@almostobsolete.net> and released with the kind permission of [NetDev][#netdev].
 
 **For full documentation, see [jsonpatchjs.com][#site]**
+
 
 
 Quick Example
@@ -59,11 +57,13 @@ Are there tests?
 
 Yes, there are tests. It also passes JSHint.
 
+We're using [Travis][#travis] and [Testling CI][#testling] to automatically run the tests on Node.JS and in a range of browsers every time a change is commited to this repository. The badges at the top of this readme display the current build status (which should always be passing).
+
 
 Origin of the project
 ---------------------
 
-[Dharmafly][#dharmafly] is currently working to create a collaboration web app for [NetDev][#netdev] that comprises a [Node.js][#nodejs] RESTful API on the back-end and an HTML5 [Backbone.js][#backbone] application on the front. The JSON Patch library was created as an essential part of the RESTful API, and has been subsequently open sourced for the community with NetDev's permission.
+[Dharmafly][#dharmafly] is currently working to create a collaboration web app for [NetDev][#netdev] that comprises a [Node.js][#nodejs] RESTful API on the back-end and an HTML5 [Backbone.js][#backbone] application on the front. The JSONPatch library was created as an essential part of the RESTful API, and has been subsequently open sourced for the community with NetDev's permission.
 
 I've fixed/improved stuff
 -------------------------
@@ -79,3 +79,5 @@ Great! Send me a pull request [through GitHub](http://github.com/dharmafly/jsonp
 [#backbone]: http://documentcloud.github.com/backbone/
 [#jsonpatch]: https://datatracker.ietf.org/doc/draft-ietf-appsawg-json-patch/
 [#jsonpointer]: https://datatracker.ietf.org/doc/draft-ietf-appsawg-json-pointer/
+[#travis]: http://travis-ci.org/dharmafly/jsonpatch.js
+[#testling]: http://ci.testling.com/dharmafly/jsonpatch.js
