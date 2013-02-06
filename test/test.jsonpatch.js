@@ -194,35 +194,34 @@ describe('JSONPatch', function () {
   });
 
 
-  
-  it('should not mutate the source document', function () {
-    var doc = {
-      "foo": {
-        "anArray": [
-          { "prop": 44 },
-          "second",
-          "third"
-        ],
-        "another prop": {
-          "baz": "A string"
+  // Don't run this test on browsers without the JSON object
+  if (typeof JSON === 'object') {
+    it('should not mutate the source document', function () {
+      var doc = {
+        "foo": {
+          "anArray": [
+            { "prop": 44 },
+            "second",
+            "third"
+          ],
+          "another prop": {
+            "baz": "A string"
+          }
         }
-      }
-    };
-    var json = JSON.stringify(doc);
-    var patch = [
-      {"op": "remove", "path": "/foo/another prop/baz"},
-      {"op": "add", "path": "/foo/new", "value": "hello"},
-      {"op": "move", "from": "/foo/new", "path": "/newnew"},
-      {"op": "copy", "from": "/foo/anArray/1", "path": "/foo/anArray/-"},
-      {"op": "test", "path": "/foo/anArray/3", "value": "second"}
-    ];
-    var patched = jsonpatch.apply_patch(doc, patch);
-    // Check that the doc has not been mutated
-    expect(JSON.stringify(doc)).equal(json)
-  });
-
-  // describe('._operations', function () {
-  // });
+      };
+      var json = JSON.stringify(doc);
+      var patch = [
+        {"op": "remove", "path": "/foo/another prop/baz"},
+        {"op": "add", "path": "/foo/new", "value": "hello"},
+        {"op": "move", "from": "/foo/new", "path": "/newnew"},
+        {"op": "copy", "from": "/foo/anArray/1", "path": "/foo/anArray/-"},
+        {"op": "test", "path": "/foo/anArray/3", "value": "second"}
+      ];
+      var patched = jsonpatch.apply_patch(doc, patch);
+      // Check that the doc has not been mutated
+      expect(JSON.stringify(doc)).equal(json)
+    });
+  }
 
   describe('.apply()', function () {
     var patch;
