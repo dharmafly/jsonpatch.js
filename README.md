@@ -1,4 +1,4 @@
-NEW: Now supports JSONPointer Draft 09 and JSONPatch Draft 10 (the latest as of 21/Jan/2012)
+NEW: Now supports JSONPointer Draft 09 and JSONPatch Draft 10 (the latest as of 21/Jan/2013)
 
 
 JSONPatch
