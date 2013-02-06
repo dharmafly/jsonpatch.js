@@ -225,6 +225,32 @@ describe('JSONPatch', function () {
     });
   }
 
+  it('should mutate the document if the mutate flag is passed in', function () {
+    var doc = {
+      "foo": {
+        "anArray": [
+          { "prop": 44 },
+          "second",
+          "third"
+        ],
+        "another prop": {
+          "baz": "A string"
+        }
+      }
+    };
+    var patch = [
+      {"op": "remove", "path": "/foo/another prop/baz"},
+      {"op": "add", "path": "/foo/new", "value": "hello"},
+      {"op": "move", "from": "/foo/new", "path": "/newnew"},
+      {"op": "copy", "from": "/foo/anArray/1", "path": "/foo/anArray/-"},
+      {"op": "test", "path": "/foo/anArray/3", "value": "second"}
+    ];
+    patch = new jsonpatch.JSONPatch(patch, true); // mutate = true
+    var patched = patch.apply(doc);
+    // Check that the doc has not been mutated
+    expect(patched).eql(doc)
+  });
+
   describe('.apply()', function () {
     var patch;
     it('should call each operation in turn', function () {

@@ -13,7 +13,15 @@ function add_tests(name, tests) {
         if (test.disabled) {
           return;
         }
-        it(test.comment || "Un-named test", function () {
+        var testname;
+        if (test.comment) {
+          testname = test.comment;
+        } else if (typeof JSON !== "undefined") {
+          testname = JSON.stringify(test.patch);
+        } else {
+          testname = "Un-named patch";
+        }
+        it(testname, function () {
           // We want to skip this part if there isn't a JSON library
           // loaded
           if (typeof JSON !== "undefined") {
