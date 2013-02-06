@@ -2,6 +2,8 @@ NEW: Now suppots JSONPointer Draft 09 and JSONPatch Draft 10 (the latest as of 2
 
 [![Build Status](https://secure.travis-ci.org/dharmafly/jsonpatch.js.png)](http://travis-ci.org/dharmafly/jsonpatch.js)
 
+[![browser support](http://ci.testling.com/dharmafly/jsonpatch.js.png)](http://ci.testling.com/dharmafly/jsonpatch.js)
+
 JSONPatch
 =========
 
