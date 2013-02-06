@@ -2,7 +2,7 @@
 project_name: jsonpatch.js
 # Version number as a string
 version: '0.0.2'
-project_url: https://github.com/user/jsonpatch.js
+project_url: https://github.com/dharmafly/jsonpatch.js
 
 # Site theme (options: forest, ocean, horus, seagrass, sundae, slate)
 theme: sundae
