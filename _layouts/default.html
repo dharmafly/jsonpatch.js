@@ -20,6 +20,10 @@
     {% assign relative_path  = ".." %}
     {% assign page_path  = "../" %}
 {% endif %}
+{% if page.layout_type == 'absolute' %}
+    {% assign relative_path  = "" %}
+    {% assign page_path  = "" %}
+{% endif %}
 
 <!--[if IE 9]><html class="ie" lang="en"><![endif]-->
 <!--[if lt IE 9 ]> <html class="ie ltIE9" lang="en"> <![endif]-->
@@ -49,8 +53,7 @@
     <![endif]-->
     {% include fonts.liquid %}
     <link href="{{ relative_path }}/css/{{ site.theme }}.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="{{ relative_path }}/img/{{ site.theme }}-favicon.ico">
-    <link rel="icon" type="image/ico" href="{{ relative_path }}/img/{{ site.theme }}-favicon.ico">
+    <link rel="shortcut icon" sizes="16x16" type="image/vnd.microsoft.icon" href="{{ relative_path }}/img/{{ site.theme }}-favicon.ico"> 
     <link rel="apple-touch-icon" href="{{ relative_path }}/img/{{ site.theme }}-apple-touch-icon.png">
   </head>
   
@@ -100,7 +103,7 @@
     </footer>
 
     <script>
-      satya.narrowScreen = screen.width < 480;
+      satya.narrowScreen = window.screen.width < 480;
       satya.isltIE10 = false;
       satya.relative_path = '{{ relative_path }}/';
     </script>
