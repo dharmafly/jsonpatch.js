@@ -1,35 +1,35 @@
 --- 
-future: true
-quote: 
-  quote: The hole and the patch should be commensurate.
-  cite: Thomas Jefferson
-lsi: false
-permalink: /:title
-exclude: 
-- README.md
-- assets
-- FiddlerRules.farx
 theme: sundae
 twitter_url: https://twitter.com/dharmafly
-lang: javascript
-markdown: maruku
+project_url: https://github.com/dharmafly/jsonpatch.js
+ga_id: UA-34978047-4
+future: true
+project_name: jsonpatch.js
+quote: 
+  cite: Thomas Jefferson
+  quote: The hole and the patch should be commensurate.
+auto: false
+lsi: false
+baseurl: /
 pygments: false
-scripts: 
+version: 0.0.2
 download_links: 
 - title: Master branch zip
   href: https://github.com/dharmafly/jsonpatch.js/zipball/master
   text: jsonpatch.js
   subtext: v{{ version }}
+permalink: /:title
+lang: javascript
+scripts: 
+safe: false
 server: false
-auto: false
-project_name: jsonpatch.js
+markdown: maruku
+exclude: 
+- README.md
+- assets
+- FiddlerRules.farx
 sections: 
 - name: Overview
   path: /index.html
 - name: Reference
   path: /reference/index.html
-project_url: https://github.com/dharmafly/jsonpatch.js
-ga_id: UA-34978047-4
-version: 0.0.2
-safe: false
-baseurl: /
