@@ -1,6 +1,6 @@
 --- 
-category: reference
 heading: JSONPatch class
+category: reference
 ---
 
 A JSONPatch object represents a compiled patch. The constructor takes a single argument giving the patch as an Array or as a String.
@@ -9,7 +9,7 @@ A JSONPatch object represents a compiled patch. The constructor takes a single a
 
 Example:
 
-    mypatch = new JSONPatch([{ "replace": "/baz", "value": "boo" }]);
+    mypatch = new JSONPatch([{ "op": "replace", "path": "/baz", "value": "boo" }]);
 
 
 Throws:
