@@ -1,51 +1,23 @@
---- 
-theme: sundae
+project_name: jsonpatch.js
 project_url: https://github.com/dharmafly/jsonpatch.js
+version: '1.0.0-dev'
+jquery_no_conflict: true
+theme: sundae
 twitter_url: https://twitter.com/dharmafly
 twitter_name: Dharmafly
-ga_id: UA-34978047-4
-future: true
-project_name: jsonpatch.js
-quote: 
+lang: javascript
+scripts:
+quote:
   cite: Thomas Jefferson
   quote: The hole and the patch should be commensurate.
-auto: false
-lsi: false
-baseurl: /
-pygments: false
-version: 0.0.2
-download_links: 
+ga_id: UA-34978047-4
+download_links:
 - title: Master branch zip
   href: https://github.com/dharmafly/jsonpatch.js/zipball/master
   text: jsonpatch.js
   subtext: v{{ version }}
-permalink: /:title
-lang: javascript
-scripts: 
-safe: false
-server: false
-markdown: maruku
-exclude: 
-- README.md
-- assets
-- FiddlerRules.farx
-sections: 
-- name: Overview
-  path: /index.html
-- name: Reference
-  path: /reference/index.html
-
-############ Jekyll options
-
-safe:        false
-auto:        false
-server:      false
-
-future:      true
-lsi:         false
-pygments:    false
-markdown:    maruku
-permalink:   /:title
-baseurl:     /
-
-exclude: ['README.md', 'assets', 'FiddlerRules.farx']
+sections:
+  - path: /index.html
+    name: Overview
+  - path: /reference/index.html
+    name: Reference
