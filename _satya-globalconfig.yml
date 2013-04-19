@@ -12,9 +12,9 @@ quote:
 ga_id:
 download_links:
 sections:
- - path: /index.html
+  - path: /index.html
    name: Overview
- - path: /reference/index.html
+  - path: /reference/index.html
    name: Reference
 
 ############ Jekyll options
