@@ -25,10 +25,13 @@
       "harness": "mocha",
       "browsers": {
         "ie": [ 6, 7, 8, 9, 10],
-        "firefox": [ 13 ],
-        "chrome": [ 20 ],
-        "safari": [ 5.1 ],
-        "opera": [ 12 ]
+        "firefox": [ 19, "nightly"],
+        "chrome": [ 25, "canary" ],
+        "safari": [ 6.0 ],
+        "opera": [ 12 ],
+        "iphone": [ 6.0 ],
+        "ipad": [ 6.0 ],
+        "android-browser": [ 4.2 ]
       }
     },
     "repository" : {"type": "git", "url": "git://github.com/dharmafly/jsonpatch.js"},
