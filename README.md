@@ -48,15 +48,14 @@ Yes. Install with:
 
     npm install jsonpatch
 
-Is it finished?
----------------
-
-Probably, unless the spec changes again :)
-
 Are there tests?
 ----------------
 
-Yes, there are tests. It also passes JSHint.
+Yes, there are tests. It also passes JSHint. You can (and should) run the tests yourself by running this from the project directory:
+
+    npm test
+
+Or you can open `test/runner.html` in a browser of your choice.
 
 We're using [Travis][#travis] and [Testling CI][#testling] to automatically run the tests on Node.JS and in a range of browsers every time a change is commited to this repository. The badges at the top of this readme display the current build status (which should always be passing).
 
