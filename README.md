@@ -28,17 +28,7 @@ Quick Example
     // patcheddoc now equals {"baz": "boo", "foo": "bar"}}
 ```
 
-And that's all you need for basic use. If the patch is invalid or won't apply then you'll get an error thrown. The original doc is NOT mutated so you can use it for other things afterwards.
-
-If you wanted to mutate the original document in place you could instead do:
-
-```javascript
-    patchobj = new JSONPatch(thepatch, true); // mutate = true
-    patchobj.patch(mydoc);
-    // mydoc now equals {"baz": "boo", "foo": "bar"}}
-```
-
-Note: Mutating the root of a document in place (i.e. with path `""`) is not currently supported.
+And that's all you need for basic use. If the patch is invalid or won't apply then you'll get an error thrown. The original doc is NOT mutated so you can use it for other things afterwards, mutating the document is supported via a flag if you need it.
 
 For more see the [docs][#site].
 
