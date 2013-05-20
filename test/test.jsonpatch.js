@@ -196,7 +196,7 @@ describe('JSONPatch', function () {
   });
 
 
-  // Don't run this test on browsers without the JSON object
+  // only run this test on browsers with the JSON object
   if (typeof JSON === 'object') {
     it('should not mutate the source document', function () {
       var doc = {
@@ -225,7 +225,7 @@ describe('JSONPatch', function () {
     });
   }
 
-  it('should mutate the document if the mutate flag is passed in', function () {
+  it('should mutate the document if the mutate flag is true', function () {
     var doc = {
       "foo": {
         "anArray": [
@@ -238,6 +238,7 @@ describe('JSONPatch', function () {
         }
       }
     };
+    var json = JSON.stringify(doc);
     var patch = [
       {"op": "remove", "path": "/foo/another prop/baz"},
       {"op": "add", "path": "/foo/new", "value": "hello"},
@@ -247,7 +248,9 @@ describe('JSONPatch', function () {
     ];
     patch = new jsonpatch.JSONPatch(patch, true); // mutate = true
     var patched = patch.apply(doc);
-    // Check that the doc has not been mutated
+    // Check that the doc has been mutated
+    expect(JSON.stringify(doc)).not.equal(json)
+    // Check that it returned a reference to the original doc
     expect(patched).eql(doc)
   });
 
