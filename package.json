@@ -1,6 +1,6 @@
 {
     "name": "jsonpatch",
-    "version": "1.0.0-rc1",
+    "version": "1.0.0-dev",
     "description": "An implementation of JSON Patch and JSON Pointer IETF RFCs",
     "keywords": ["diff", "patch", "json", "jsonpatch", "jsonpointer"],
     "maintainers": "Thomas Parslow <tom@almostobsolete.net>",
@@ -30,8 +30,7 @@
         "safari": [ 6.0 ],
         "opera": [ 12 ],
         "iphone": [ 6.0 ],
-        "ipad": [ 6.0 ],
-        "android-browser": [ 4.2 ]
+        "ipad": [ 6.0 ]
       }
     },
     "repository" : {"type": "git", "url": "git://github.com/dharmafly/jsonpatch.js"},
