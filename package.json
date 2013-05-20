@@ -11,10 +11,12 @@
     "devDependencies": {
         "mocha": "1.8.1",
         "expect.js": "0.2.0",
-        "jshint": "0.3.0"
+        "jshint": "0.3.0",
+        "uglify-js": "2.3.5"
     },
     "scripts": {
-        "test": "mocha test/test.*.js && jshint lib"
+        "test": "mocha test/test.*.js && jshint lib",
+        "minify": "uglifyjs lib/jsonpatch.js -c --comments -o jsonpatch.min.js"
     },
     "testling": {
       "files": [
