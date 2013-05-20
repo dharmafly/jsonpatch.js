@@ -29,7 +29,7 @@
         "opera": [ 12 ]
       }
     },
-    "repository" : {"type": "git", "url": "git://github.com/dhamrafly/jsonpatch.js"},
+    "repository" : {"type": "git", "url": "git://github.com/dharmafly/jsonpatch.js"},
     "directories" : { "lib" : "./lib/" , "doc" : "./doc/" },
     "engines": { "node": ">=0.4.0" },
     "licenses": ["MIT"] ,
