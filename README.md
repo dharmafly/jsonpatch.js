@@ -1,10 +1,7 @@
-NEW: Now supports JSONPointer Draft 09 and JSONPatch Draft 10 (the latest as of 21/Jan/2013)
-
-
 JSONPatch
 =========
 
-An implementation of the [JSONPatch][#jsonpatch] (and [JSONPointer][#jsonpointer]) IETF drafts for Node.JS and the Browser (as a plain module or with AMD).
+An implementation of the [JSONPatch][#jsonpatch] and [JSONPointer][#jsonpointer] IETF RFCs that works in Node.JS and the Browser (as a plain module or with AMD).
 
 A [Dharmafly][#dharmafly] project written by [Thomas Parslow][#tom] <tom@almostobsolete.net> and released with the kind permission of [NetDev][#netdev].
 
@@ -79,7 +76,7 @@ Great! Send me a pull request [through GitHub](http://github.com/dharmafly/jsonp
 [#dharmafly]: http://dharmafly.com
 [#nodejs]: http://nodejs.org
 [#backbone]: http://documentcloud.github.com/backbone/
-[#jsonpatch]: https://datatracker.ietf.org/doc/draft-ietf-appsawg-json-patch/
-[#jsonpointer]: https://datatracker.ietf.org/doc/draft-ietf-appsawg-json-pointer/
+[#jsonpatch]: http://tools.ietf.org/html/rfc6902
+[#jsonpointer]: http://tools.ietf.org/html/rfc6901
 [#travis]: http://travis-ci.org/dharmafly/jsonpatch.js
 [#testling]: http://ci.testling.com/dharmafly/jsonpatch.js
