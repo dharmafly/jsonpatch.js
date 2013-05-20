@@ -37,7 +37,7 @@ describe('JSONPointer', function () {
       example = add('/foo/newprop',example,'test');
       expect(example.foo.newprop).equal('test');
     });
-    
+
     it('should add an element to list, pushing up the remaing values', function () {
       example = add('/foo/anArray/1',example,'test');
       expect(example.foo.anArray.length).equal(4);
@@ -56,7 +56,7 @@ describe('JSONPointer', function () {
       expect(example.foo.anArray.length).equal(4);
       expect(example.foo.anArray[3]).equal('test');
     });
-    
+
     it('should fail if adding to an array would create a sparse array', function () {
       expect(function () {
         add('/foo/anArray/4',example,'test');
@@ -225,34 +225,36 @@ describe('JSONPatch', function () {
     });
   }
 
-  it('should mutate the document if the mutate flag is true', function () {
-    var doc = {
-      "foo": {
-        "anArray": [
-          { "prop": 44 },
-          "second",
-          "third"
-        ],
-        "another prop": {
-          "baz": "A string"
+  if (typeof JSON === 'object') {
+    it('should mutate the document if the mutate flag is true', function () {
+      var doc = {
+        "foo": {
+          "anArray": [
+            { "prop": 44 },
+            "second",
+            "third"
+          ],
+          "another prop": {
+            "baz": "A string"
+          }
         }
-      }
-    };
-    var json = JSON.stringify(doc);
-    var patch = [
-      {"op": "remove", "path": "/foo/another prop/baz"},
-      {"op": "add", "path": "/foo/new", "value": "hello"},
-      {"op": "move", "from": "/foo/new", "path": "/newnew"},
-      {"op": "copy", "from": "/foo/anArray/1", "path": "/foo/anArray/-"},
-      {"op": "test", "path": "/foo/anArray/3", "value": "second"}
-    ];
-    patch = new jsonpatch.JSONPatch(patch, true); // mutate = true
-    var patched = patch.apply(doc);
-    // Check that the doc has been mutated
-    expect(JSON.stringify(doc)).not.equal(json)
-    // Check that it returned a reference to the original doc
-    expect(patched).eql(doc)
-  });
+      };
+      var json = JSON.stringify(doc);
+      var patch = [
+        {"op": "remove", "path": "/foo/another prop/baz"},
+        {"op": "add", "path": "/foo/new", "value": "hello"},
+        {"op": "move", "from": "/foo/new", "path": "/newnew"},
+        {"op": "copy", "from": "/foo/anArray/1", "path": "/foo/anArray/-"},
+        {"op": "test", "path": "/foo/anArray/3", "value": "second"}
+      ];
+      patch = new jsonpatch.JSONPatch(patch, true); // mutate = true
+      var patched = patch.apply(doc);
+      // Check that the doc has been mutated
+      expect(JSON.stringify(doc)).not.equal(json)
+      // Check that it returned a reference to the original doc
+      expect(patched).eql(doc)
+    });
+  }
 
   describe('.apply()', function () {
     var patch;
