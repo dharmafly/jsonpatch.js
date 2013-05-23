@@ -1,6 +1,6 @@
 project_name: jsonpatch.js
 project_url: https://github.com/dharmafly/jsonpatch.js
-version: '1.0.0-dev'
+version: '1.0.0-rc1'
 jquery_no_conflict: true
 theme: sundae
 twitter_url: https://twitter.com/dharmafly
