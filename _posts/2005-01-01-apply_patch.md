@@ -5,6 +5,7 @@ category: reference
 
 A shortcut to apply a patch given as an Array or as a JSON String (see the [JSONPatch RFC 6902][#jsonpatch] for the patch format) to a document. Will not mutate the original document, however the new document may share some structure with the original.
 
+
 * document - The document to operate against. May be mutated.
 * patch - The patch document as a JS Array of operations or as a JSON String representing the same (the latter requires JSON support in your browser or the inclusion of the JSON2 library or similar)
 
@@ -19,6 +20,7 @@ Example:
     ]
     patcheddoc = jsonpatch.apply_patch(mydoc, thepatch);
     // patcheddoc now equals {"baz": "boo", "foo": "bar"}}
+
 
 [#jsonpatch]: http://tools.ietf.org/html/rfc6902
 

@@ -7,5 +7,4 @@ Represents a pointer into a Javascript object. The constructor takes a single st
 
     mypointer = new JSONPointer('/foo/baz/bar');
 
-=======
 [#jsonpointer]: http://tools.ietf.org/html/rfc6901
