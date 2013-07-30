@@ -1,4 +1,4 @@
-{
+{ 
     "name": "jsonpatch",
     "version": "1.0.0-dev",
     "description": "An implementation of JSON Patch and JSON Pointer IETF RFCs",
