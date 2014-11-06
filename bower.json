@@ -1,6 +1,6 @@
 {
   "name": "jsonpatch",
-  "version": "1.0.0-dev",
+  "version": "1.0.1",
   "main": "lib/jsonpatch.js",
   "ignore": [
     "**/.*",
