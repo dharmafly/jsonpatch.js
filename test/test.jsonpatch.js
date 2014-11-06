@@ -118,13 +118,15 @@ describe('JSONPointer', function () {
         "numbers": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
         "": 0,
         "a/b": 1,
+        "a/b/c": "cheese",
         "c%d": 2,
         "e^f": 3,
         "g|h": 4,
         "i\\j": 5,
         "k\"l": 6,
         " ": 7,
-        "m~n": 8
+        "m~n": 8,
+        "m~n~o": "blarg"
       };
 
       var examples = {
@@ -134,6 +136,7 @@ describe('JSONPointer', function () {
         "/foo/0":"bar",
         "/"     :0,
         "/a~1b" :1,
+        "/a~1b~1c" :"cheese",
         "/c%d"  :2,
         "/e^f"  :3,
         "/g|h"  :4,
@@ -141,6 +144,7 @@ describe('JSONPointer', function () {
         "/k\"l" :6,
         "/ "    :7,
         "/m~0n" :8,
+        "/m~0n~0o" :"blarg",
         // Extra examples
         "/numbers/010": 10,
         "/numbers/00010": 10,
