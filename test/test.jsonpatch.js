@@ -147,8 +147,7 @@ describe('JSONPointer', function () {
         "/m~0n~0o" :"blarg",
         // Extra examples
         "/numbers/010": 10,
-        "/numbers/00010": 10,
-        "/numbers/-": undefined
+        "/numbers/00010": 10
       };
 
       for (var example in examples) {
@@ -166,6 +165,14 @@ describe('JSONPointer', function () {
 
     it('should get the array element pointed to', function () {
       expect(do_get('/foo/anArray/1', example)).equal('second');
+    });
+
+    it('should throw when pointer references a nonexistent value for example "/foo/anArray/-"', function () {
+      expect(do_get).withArgs('/foo/anArray/-', example).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Path not found in document') });
+    });
+
+    it('should throw when pointer references a nonexistent value for example "/foo/anArray/-"', function () {
+      expect(do_get).withArgs('/foo/bar', example).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Path not found in document') });
     });
   });
 });
