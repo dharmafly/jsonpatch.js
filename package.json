@@ -1,6 +1,6 @@
 { 
     "name": "jsonpatch",
-    "version": "1.0.1-dev",
+    "version": "2.0.0",
     "description": "An implementation of JSON Patch and JSON Pointer IETF RFCs",
     "keywords": ["diff", "patch", "json", "jsonpatch", "jsonpointer"],
     "maintainers": "Thomas Parslow <tom@almostobsolete.net>",
