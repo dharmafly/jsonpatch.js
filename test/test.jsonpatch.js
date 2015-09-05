@@ -147,8 +147,7 @@ describe('JSONPointer', function () {
         "/m~0n~0o" :"blarg",
         // Extra examples
         "/numbers/010": 10,
-        "/numbers/00010": 10,
-        "/numbers/-": undefined
+        "/numbers/00010": 10
       };
 
       for (var example in examples) {
@@ -167,6 +166,11 @@ describe('JSONPointer', function () {
     it('should get the array element pointed to', function () {
       expect(do_get('/foo/anArray/1', example)).equal('second');
     });
+
+    it('should throw when pointer references a nonexistent value', function () {
+      expect(do_get).withArgs('/foo/anArray/-', example).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Path not found in document') });
+      expect(do_get).withArgs('/foo/bar', example).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Path not found in document') });
+    });
   });
 });
 
@@ -183,20 +187,26 @@ describe('JSONPatch', function () {
       patch = new jsonpatch.JSONPatch([{"op":"remove", "path":"/"}, {"op":"remove", "path":"/"}]);
       expect(patch.compiledOps.length).equal(2);
     });
-    it('should raise an error for  patches that arent arrays', function () {
+    it('should raise an error for patches that aren\'t arrays', function () {
       expect(function () {patch = new jsonpatch.JSONPatch({});}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('Patch must be an array of operations') });
-    });
-    it('should raise an error if value is not supplied for add or replace operation', function () {
-      expect(function () {patch = new jsonpatch.JSONPatch([{op:"add", path:'/'}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('add must have key value') });
-      expect(function () {patch = new jsonpatch.JSONPatch([{op:"replace", path:'/'}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('replace must have key value') });
     });
     it('should raise an error if an operation is not specified', function () {
       expect(function () {patch = new jsonpatch.JSONPatch([{}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('Operation missing!') });
     });
-    it('should raise an error if un-recognised operation is specified', function () {
+    it('should raise an error if unrecognised operation is specified', function () {
       expect(function () {patch = new jsonpatch.JSONPatch([{op:"blam"}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('Invalid operation!') });
     });
-
+    it('should raise an error for operations without path', function () {
+      expect(function () {patch =  new jsonpatch.JSONPatch([{op:"add"}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('Path missing!')});
+    });
+    it('should raise an error if value is not supplied for add, replace or test operation', function () {
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"add", path:'/'}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('add must have key value') });
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"replace", path:'/'}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('replace must have key value') });
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"test", path:'/'}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('test must have key value') });    });
+    it('should raise an error if from is not supplied for move or copy operation', function () {
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"move", path:'/'}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('move must have key from') });
+      expect(function () {patch = new jsonpatch.JSONPatch([{op:"copy", path:'/'}]);}).throwException(function (e) { expect(e).a(jsonpatch.InvalidPatch); expect(e.message).equal('copy must have key from') });
+    });
   });
 
 
@@ -276,6 +286,46 @@ describe('JSONPatch', function () {
       patch.apply('TEST_DOC');
       expect(callOrder[0]).equal('one');
       expect(callOrder[2]).equal('three');
+    });
+    it('should raise an error if from key supplied does not exist for move or copy operation', function () {
+      var doc = {
+        "foo": {
+          "anArray": [
+            { "prop": 44 },
+            "second",
+            "third"
+          ],
+          "another prop": {
+            "baz": "A string"
+          }
+        }
+      };
+      expect(function () {
+        jsonpatch.apply_patch(doc, [{op:"move", from: '/bar', path:'/'}]);
+      }).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Path not found in document') });
+      expect(function () {
+        jsonpatch.apply_patch(doc, [{op:"copy", from: '/bar', path:'/'}]);
+      }).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Path not found in document') });
+    });
+    it('should raise an error if path key supplied does not exist for remove or replace operation', function () {
+      var doc = {
+        "foo": {
+          "anArray": [
+            { "prop": 44 },
+            "second",
+            "third"
+          ],
+          "another prop": {
+            "baz": "A string"
+          }
+        }
+      };
+      expect(function () {
+        jsonpatch.apply_patch(doc, [{op:"remove", path:'/bar'}]);
+      }).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Remove operation must point to an existing value!') });
+      expect(function () {
+        jsonpatch.apply_patch(doc, [{op:"replace", path:'/bar', value: ''}]);
+      }).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Replace operation must point to an existing value!') });
     });
   });
 
