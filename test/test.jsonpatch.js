@@ -172,6 +172,22 @@ describe('JSONPointer', function () {
       expect(do_get).withArgs('/foo/bar', example).throwException(function (e) { expect(e).a(jsonpatch.PatchApplyError); expect(e.message).equal('Path not found in document') });
     });
   });
+
+  describe('.toString()', function () {
+    it('should return a string representation of the path', function() {
+       var pathInput = "/foo/~0bar/~1baz";
+       var path = new jsonpatch.JSONPointer(pathInput);
+
+       expect(path + "").equal(pathInput);
+    });
+
+    it('should handle being an empty string', function() {
+      var pathInput = "";
+      var path = new jsonpatch.JSONPointer(pathInput);
+
+      expect(path + "").equal(pathInput);
+    });
+  });
 });
 
 describe('JSONPatch', function () {
@@ -368,6 +384,23 @@ describe('JSONPatch', function () {
       expect(doc.beta).equal(undefined);
       //expect(doc.delta).equal(undefined);
     });
+  });
+
+  describe('.toString()', function () {
+    it('should return a string representation of the input that created the patch', function () {
+      var patchInput = '[{"op":"add","path":"/foo","value":"~0"}]';
+      var patch = new jsonpatch.JSONPatch(patchInput);
+
+      expect(patch + "").equal(patchInput);
+    });
+
+    it('should handle stringifying objects to generate the string representation', function () {
+      var patchString = '[{"op":"add","path":"/foo","value":"~0"}]';
+      var patchInput = JSON.parse(patchString);
+      var patch = new jsonpatch.JSONPatch(patchInput);
+
+      expect(patch + "").equal(patchString);
+    })
   });
 
 });
