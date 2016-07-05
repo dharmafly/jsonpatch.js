@@ -1,4 +1,4 @@
-{ 
+{
     "name": "jsonpatch",
     "version": "3.0.0",
     "description": "An implementation of JSON Patch and JSON Pointer IETF RFCs",
@@ -37,5 +37,6 @@
     "directories" : { "lib" : "./lib/" , "doc" : "./doc/" },
     "engines": { "node": ">=0.4.0" },
     "licenses": ["MIT"] ,
-    "main": "lib/jsonpatch.js"
+    "main": "lib/jsonpatch.js",
+    "typings": "lib/jsonpatch.d.ts"
 }
