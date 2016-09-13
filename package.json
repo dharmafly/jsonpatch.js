@@ -36,7 +36,7 @@
     "repository" : {"type": "git", "url": "git://github.com/dharmafly/jsonpatch.js"},
     "directories" : { "lib" : "./lib/" , "doc" : "./doc/" },
     "engines": { "node": ">=0.4.0" },
-    "licenses": ["MIT"] ,
+    "license": "MIT" ,
     "main": "lib/jsonpatch.js",
     "typings": "lib/jsonpatch.d.ts"
 }
