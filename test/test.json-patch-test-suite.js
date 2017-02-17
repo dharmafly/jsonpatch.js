@@ -115,6 +115,12 @@ add_tests('tests.json', [
     "patch": [ {"op": "add", "path": "/", "value":1 } ],
     "expected": {"":1} },
 
+  { "comment": "Add, /foo/ deep target (trailing slash)",
+    "doc": {"foo": {}},
+    "patch": [{"op": "add", "path": "/foo/", "value": 1}],
+    "expected": {"foo": {"": 1}}
+  },
+
   { "comment": "Add composite value at top level",
     "doc": {"foo": 1},
     "patch": [{"op": "add", "path": "/bar", "value": [1, 2]}],
@@ -162,9 +168,15 @@ add_tests('tests.json', [
     "patch": [{"op": "add", "path": "/0", "value": "bar"}],
     "expected": ["bar", "foo", "sil"] },
 
-  { "doc": ["foo", "sil"],
+  { "comment": "push item to array via last index + 1",
+    "doc": ["foo", "sil"],
     "patch": [{"op":"add", "path": "/2", "value": "bar"}],
     "expected": ["foo", "sil", "bar"] },
+
+  { "comment": "add item to array at index > length should fail",
+    "doc": ["foo", "sil"],
+    "patch": [{"op": "add", "path": "/3", "value": "bar"}],
+    "error": "index is greater than number of items in array" },
 
   { "comment": "test against implementation-specific numeric parsing",
     "doc": {"1e0": "foo"},
@@ -226,6 +238,11 @@ add_tests('tests.json', [
     "expected": ["foo", ["bar", "baz"]],
     "comment": "value in array replace not flattened" },
 
+  { "comment": "replace whole document",
+    "doc": {"foo": "bar"},
+    "patch": [{"op": "replace", "path": "", "value": {"baz": "qux"}}],
+    "expected": {"baz": "qux"} },
+
   { "comment": "spurious patch properties",
     "doc": {"foo": 1},
     "patch": [{"op": "test", "path": "/foo", "value": 1, "spurious": 1}],
@@ -233,7 +250,32 @@ add_tests('tests.json', [
 
   { "doc": {"foo": null},
     "patch": [{"op": "test", "path": "/foo", "value": null}],
-    "comment": "null value should still be valid obj property" },
+    "comment": "null value should be valid obj property" },
+
+  { "doc": {"foo": null},
+    "patch": [{"op": "replace", "path": "/foo", "value": "truthy"}],
+    "expected": {"foo": "truthy"},
+    "comment": "null value should be valid obj property to be replaced with something truthy" },
+
+  { "doc": {"foo": null},
+    "patch": [{"op": "move", "from": "/foo", "path": "/bar"}],
+    "expected": {"bar": null},
+    "comment": "null value should be valid obj property to be moved" },
+
+  { "doc": {"foo": null},
+    "patch": [{"op": "copy", "from": "/foo", "path": "/bar"}],
+    "expected": {"foo": null, "bar": null},
+    "comment": "null value should be valid obj property to be copied" },
+
+  { "doc": {"foo": null},
+    "patch": [{"op": "remove", "path": "/foo"}],
+    "expected": {},
+    "comment": "null value should be valid obj property to be removed" },
+
+  { "doc": {"foo": "bar"},
+    "patch": [{"op": "replace", "path": "/foo", "value": null}],
+    "expected": {"foo": null},
+    "comment": "null value should still be valid obj property replace other value" },
 
   { "doc": {"foo": {"foo": 1, "bar": 2}},
     "patch": [{"op": "test", "path": "/foo", "value": {"bar": 2, "foo": 1}}],
@@ -317,6 +359,101 @@ add_tests('tests.json', [
     "doc": [ 1, 2, [ 3, [ 4, 5 ] ] ],
     "patch": [ { "op": "add", "path": "/2/1/-", "value": { "foo": [ "bar", "baz" ] } } ],
     "expected": [ 1, 2, [ 3, [ 4, 5, { "foo": [ "bar", "baz" ] } ] ] ]},
+
+  { "comment": "test remove with bad number should fail",
+    "doc": {"foo": 1, "baz": [{"qux": "hello"}]},
+    "patch": [{"op": "remove", "path": "/baz/1e0/qux"}],
+    "error": "remove op shouldn't remove from array with bad number" },
+
+  { "comment": "test remove on array",
+    "doc": [1, 2, 3, 4],
+    "patch": [{"op": "remove", "path": "/0"}],
+    "expected": [2, 3, 4] },
+
+  { "comment": "test repeated removes",
+    "doc": [1, 2, 3, 4],
+    "patch": [{"op": "remove", "path": "/1"},
+      {"op": "remove", "path": "/2"}],
+    "expected": [1, 3] },
+
+  { "comment": "test remove with bad index should fail",
+    "doc": [1, 2, 3, 4],
+    "patch": [{"op": "remove", "path": "/1e0"}],
+    "error": "remove op shouldn't remove from array with bad number" },
+
+  { "comment": "test replace with bad number should fail",
+    "doc": [""],
+    "patch": [{"op": "replace", "path": "/1e0", "value": false}],
+    "error": "replace op shouldn't replace in array with bad number" },
+
+  { "comment": "test copy with bad number should fail",
+    "doc": {"baz": [1, 2, 3], "bar": 1},
+    "patch": [{"op": "copy", "from": "/baz/1e0", "path": "/boo"}],
+    "error": "copy op shouldn't work with bad number" },
+
+  { "comment": "test move with bad number should fail",
+    "doc": {"foo": 1, "baz": [1, 2, 3, 4]},
+    "patch": [{"op": "move", "from": "/baz/1e0", "path": "/foo"}],
+    "error": "move op shouldn't work with bad number" },
+
+  { "comment": "test add with bad number should fail",
+    "doc": ["foo", "sil"],
+    "patch": [{"op": "add", "path": "/1e0", "value": "bar"}],
+    "error": "add op shouldn't add to array with bad number" },
+
+  { "comment": "missing 'value' parameter to add",
+    "doc": [1],
+    "patch": [{"op": "add", "path": "/-"}],
+    "error": "missing 'value' parameter" },
+
+  { "comment": "missing 'value' parameter to replace",
+    "doc": [1],
+    "patch": [{"op": "replace", "path": "/0"}],
+    "error": "missing 'value' parameter" },
+
+  { "comment": "missing 'value' parameter to test",
+    "doc": [null],
+    "patch": [{"op": "test", "path": "/0"}],
+    "error": "missing 'value' parameter" },
+
+  { "comment": "missing value parameter to test - where undef is falsy",
+    "doc": [false],
+    "patch": [{"op": "test", "path": "/0"}],
+    "error": "missing 'value' parameter" },
+
+  { "comment": "missing from parameter to copy",
+    "doc": [1],
+    "patch": [{"op": "copy", "path": "/-"}],
+    "error": "missing 'from' parameter" },
+
+  { "comment": "missing from parameter to move",
+    "doc": {"foo": 1},
+    "patch": [{"op": "move", "path": ""}],
+    "error": "missing 'from' parameter" },
+
+  { "comment": "duplicate ops",
+    "doc": {"foo": "bar"},
+    "patch": [{
+      "op": "add", "path": "/baz", "value": "qux",
+      "op": "move", "from": "/foo"
+    }],
+    "error": "patch has two 'op' members",
+    "disabled": true },
+
+  { "comment": "unrecognized op should fail",
+    "doc": {"foo": 1},
+    "patch": [{"op": "spam", "path": "/foo", "value": 1}],
+    "error": "Unrecognized op 'spam'" },
+
+  { "comment": "test with bad array number that has leading zeros",
+    "doc": ["foo", "bar"],
+    "patch": [{"op": "test", "path": "/00", "value": "foo"}],
+    "error": "test op should reject the array value, it has leading zeros" },
+
+  { "comment": "test with bad array number that has leading zeros",
+    "doc": ["foo", "bar"],
+    "patch": [{"op": "test", "path": "/01", "value": "bar"}],
+    "error": "test op should reject the array value, it has leading zeros" },
 
   { "comment": "tests complete" }
 ]);
@@ -497,14 +634,14 @@ add_tests('spec_tests.json', [
   },
 
   {
-    "comment": "A.12.  Adding to a Non-existant Target",
+    "comment": "A.12.  Adding to a Non-existent Target",
     "doc": {
       "foo": "bar"
     },
     "patch": [
       { "op": "add", "path": "/baz/bat", "value": "qux" }
     ],
-    "error": "add to a non-existant target"
+    "error": "add to a non-existent target"
   },
 
   {

@@ -144,10 +144,7 @@ describe('JSONPointer', function () {
         "/k\"l" :6,
         "/ "    :7,
         "/m~0n" :8,
-        "/m~0n~0o" :"blarg",
-        // Extra examples
-        "/numbers/010": 10,
-        "/numbers/00010": 10
+        "/m~0n~0o" :"blarg"
       };
 
       for (var example in examples) {
